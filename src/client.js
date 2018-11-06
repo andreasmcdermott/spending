@@ -1,6 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { createMemorySource, createHistory, LocationProvider } from '@reach/router';
 import App from './App';
+
+const source = createMemorySource('/');
+const history = createHistory(source);
 
 const createRootNode = () => {
   const el = document.createElement('DIV');
@@ -9,7 +13,12 @@ const createRootNode = () => {
 };
 
 const root = createRootNode();
-render(<App />, root);
+render(
+  <LocationProvider history={history}>
+    <App />
+  </LocationProvider>,
+  root
+);
 
 // const Papa = require('papaparse');
 

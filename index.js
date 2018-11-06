@@ -1,6 +1,5 @@
 const path = require('path');
 const { app, BrowserWindow } = require('electron');
-const url = require('url');
 
 let mainWindow = null;
 const rootFolder = path.resolve(__dirname);

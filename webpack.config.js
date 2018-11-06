@@ -8,6 +8,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.min.js'
   },
+  target: 'electron-renderer',
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
