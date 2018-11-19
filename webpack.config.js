@@ -24,7 +24,8 @@ module.exports = {
             presets: [
               ['@babel/preset-env', { targets: { electron: '3.0.7' }, modules: false }],
               '@babel/preset-react'
-            ]
+            ],
+            plugins: ['@babel/plugin-proposal-class-properties']
           }
         },
         exclude: /(node_modules)/

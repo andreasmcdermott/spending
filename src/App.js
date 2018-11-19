@@ -3,7 +3,9 @@ import { Router, Link } from '@reach/router';
 import Dashboard from './dashboard/Dashboard';
 import Accounts from './accounts/Accounts';
 import ListAccounts from './accounts/ListAccounts';
-import AccountForm from './accounts/AccountForm';
+import NewAccount from './accounts/NewAccount';
+import Account from './accounts/Account';
+import DefineImportFormat from './accounts/DefineImportFormat';
 
 const App = () =>
   <div>
@@ -16,8 +18,9 @@ const App = () =>
         <Dashboard path="/" />
         <Accounts path="accounts">
           <ListAccounts path="/" />
-          <AccountForm path="new" />
-          <AccountForm path="edit/:accountId" />
+          <NewAccount path="new" />
+          <Account path=":accountId" />
+          <DefineImportFormat path=":accountId/define-import-format" />
         </Accounts>
       </Router>
     </main>

@@ -1,10 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { createMemorySource, createHistory, LocationProvider } from '@reach/router';
+import { createMemorySource, createHistory, LocationProvider, Location } from '@reach/router';
+import { getCurrentPage, setCurrentPage } from './localStorage';
 import App from './App';
-
-const source = createMemorySource('/');
-const history = createHistory(source);
+import DatabaseLoader from './components/DatabaseLoader';
 
 const createRootNode = () => {
   const el = document.createElement('DIV');
@@ -13,44 +12,21 @@ const createRootNode = () => {
 };
 
 const root = createRootNode();
+const source = createMemorySource(getCurrentPage() || '/');
+const history = createHistory(source);
+
 render(
   <LocationProvider history={history}>
-    <App />
+    <DatabaseLoader>
+      <App />
+
+      <Location>
+        {({ location }) => {
+          setCurrentPage(location.pathname);
+          return null;
+        }}
+      </Location>
+    </DatabaseLoader>
   </LocationProvider>,
   root
 );
-
-// const Papa = require('papaparse');
-
-// const input = document.getElementById('fileInput');
-// const output = document.getElementById('output');
-
-// input.addEventListener('change', e => {
-//   const file = e.target.files[0];
-//   getHeaders(file);
-// });
-
-// function getHeaders(file) {
-//   Papa.parse(file, {
-//     preview: 1,
-//     complete: (results, file) => {
-//       output.innerHTML = JSON.stringify(results, null, 2);
-//     }
-//   });
-// }
-
-// function importRows(file) {
-//   Papa.parse(file, {
-//     header: true,
-//     trimHeaders: true,
-//     skipEmptyLines: true,
-//     dynamicTyping: true,
-//     transform: (value, column) => {
-//       if (/Date/gi.test(column)) return new Date(value);
-//       return value;
-//     },
-//     complete: (results, file) => {
-//       output.innerHTML = JSON.stringify(results, null, 2);
-//     }
-//   });
-// }
