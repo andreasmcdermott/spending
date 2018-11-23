@@ -1,7 +1,14 @@
 import React from 'react';
-import { getCategories, addCategory, removeFilter, updateCategory } from '../categories/data';
+import {
+  getCategories,
+  addCategory,
+  removeCategory,
+  removeFilter,
+  updateCategory
+} from '../categories/data';
 import CategoryTypes from './categoryTypes';
 import FilterForm from './FilterForm';
+import { getRandomColor } from './colors';
 
 export default class Categories extends React.Component {
   state = { categories: getCategories() };
@@ -23,7 +30,9 @@ export default class Categories extends React.Component {
             <tr>
               <th>Name</th>
               <th>Filters</th>
-              <th>Is Spending</th>
+              <th>Type</th>
+              <th>Color</th>
+              <th />
             </tr>
           </thead>
           <tbody>
@@ -90,6 +99,44 @@ export default class Categories extends React.Component {
                     />{' '}
                     Ignored
                   </label>
+                </td>
+                <td>
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      backgroundColor: c.color,
+                      width: '16px',
+                      height: '16px'
+                    }}
+                  />
+                  <input
+                    type="text"
+                    value={c.color}
+                    onChange={e => {
+                      c.color = e.target.value;
+                      updateCategory(c);
+                      this.setState({ categories: getCategories() });
+                    }}
+                  />
+                  <button
+                    onClick={() => {
+                      c.color = getRandomColor();
+                      updateCategory(c);
+                      this.setState({ categories: getCategories() });
+                    }}
+                  >
+                    Random Color
+                  </button>
+                </td>
+                <td>
+                  <button
+                    onClick={() => {
+                      removeCategory(c.id);
+                      this.setState({ categories: getCategories() });
+                    }}
+                  >
+                    Remove
+                  </button>
                 </td>
               </tr>
             )}

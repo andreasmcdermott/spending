@@ -9,7 +9,7 @@ const compareDescription = (filter, description) => {
 
 const compareAmount = (filter, amount) => {
   if (!filter.amount) return true;
-  if (filter.amount.type === 'equals') return filter.amount.value === amount;
+  if (filter.amount.type === '=') return filter.amount.value === amount;
   if (filter.amount.type === '<') return filter.amount.value >= amount;
   if (filter.amount.type === '>') return filter.amount.value <= amount;
   return false;

@@ -1,5 +1,7 @@
 import { getCollection } from '../utils/db';
 import { createIdFromName } from '../utils/utils';
+import CategoryTypes from './categoryTypes';
+import { getRandomColor } from './colors';
 
 export const getCategories = () =>
   getCollection('categories').find({}).sort((c1, c2) => c1.name.localeCompare(c2.name));
@@ -10,7 +12,18 @@ export const getCategoryById = categoryId =>
 export const addCategory = name => {
   const id = createIdFromName(name);
   const categories = getCollection('categories');
-  categories.insert({ id, name, filters: [] });
+  categories.insert({
+    id,
+    name,
+    filters: [],
+    type: CategoryTypes.Spending,
+    color: getRandomColor()
+  });
+};
+
+export const removeCategory = categoryId => {
+  const categories = getCollection('categories');
+  categories.removeWhere({ id: categoryId });
 };
 
 export const addFilterToCategory = (categoryId, filter) => {

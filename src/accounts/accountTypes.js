@@ -1,5 +1,6 @@
 const AccountTypes = {
   Checking: 'c',
+  Saving: 's',
   'Credit Card': 'cc'
 };
 

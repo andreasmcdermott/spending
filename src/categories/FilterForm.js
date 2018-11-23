@@ -30,7 +30,7 @@ export default class FilterForm extends React.Component {
           placeholder="Description"
           value={this.state.description}
           onChange={e => {
-            this.setState({ description: e.target.value });
+            this.setState({ description: e.target.value.toLowerCase() });
           }}
           type="text"
         />

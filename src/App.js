@@ -8,6 +8,7 @@ import Account from './accounts/Account';
 import Import from './accounts/Import';
 import DefineImportFormat from './accounts/DefineImportFormat';
 import Categories from './categories/Categories';
+import UpdateImports from './accounts/UpdateImports';
 
 const App = () =>
   <div>
@@ -26,6 +27,7 @@ const App = () =>
           <Account path=":accountId" />
           <DefineImportFormat path=":accountId/define-import-format" />
           <Import path=":accountId/import" />
+          <UpdateImports path=":accountId/update-imports" />
         </Accounts>
       </Router>
     </main>

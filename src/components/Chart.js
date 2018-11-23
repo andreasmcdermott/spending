@@ -11,22 +11,22 @@ export default class Chart extends React.Component {
       data: {
         datasets: [
           {
-            data: Object.values(this.props.data)
+            data: Object.values(this.props.data).map(x => x.amount),
+            backgroundColor: Object.values(this.props.data).map(x => x.color)
           }
         ],
-        labels: Object.keys(this.props.data)
+        labels: Object.values(this.props.data).map(x => x.categoryName)
+      },
+      options: {
+        title: {
+          text: this.props.title,
+          display: true
+        }
       }
     });
   }
 
   render() {
-    return (
-      <React.Fragment>
-        <h3>
-          {this.props.title}
-        </h3>
-        <canvas ref={this.canvasRef} />
-      </React.Fragment>
-    );
+    return <canvas ref={this.canvasRef} />;
   }
 }
