@@ -17,10 +17,6 @@ export const importRows = file =>
       trimHeaders: true,
       skipEmptyLines: true,
       dynamicTyping: true,
-      transform: (value, column) => {
-        if (/Date/gi.test(column)) return new Date(value);
-        return value;
-      },
       complete: results => {
         resolve(results);
       }

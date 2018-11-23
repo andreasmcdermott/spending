@@ -23,7 +23,11 @@ render(
       <Location>
         {({ location }) => {
           setCurrentPage(location.pathname);
-          return null;
+          return (
+            <strong style={{ marginTop: '2rem' }}>
+              {location.pathname}
+            </strong>
+          );
         }}
       </Location>
     </DatabaseLoader>

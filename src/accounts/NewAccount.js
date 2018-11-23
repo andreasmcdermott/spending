@@ -1,16 +1,15 @@
 import React from 'react';
-import { navigate } from '@reach/router';
 import AccountTypes from './accountTypes';
 import Form from '../components/Form';
 import { addAccount } from './data';
 import { mapEventToChange } from '../utils/fns';
 
-const NewAccount = () =>
+const NewAccount = ({ navigate }) =>
   <Form
     formData={{ name: '', type: null }}
     onSave={data => {
       const account = addAccount(data);
-      navigate(`/accounts/${account.id}`);
+      navigate(`../${account.id}`);
     }}
   >
     {({ name, type }, onChange) =>

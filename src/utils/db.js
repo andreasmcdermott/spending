@@ -14,8 +14,9 @@ const getDb = () => {
     adapter,
     autoload: true,
     autosave: true,
-    autosaveInterval: 5000,
+    autosaveInterval: 1500,
     autoloadCallback: () => {
+      addCollections();
       readyListeners.forEach(fn => fn());
     }
   });
@@ -31,9 +32,16 @@ export const getDbReady = fn => {
 };
 
 export const addCollection = (name, options) => {
-  if (!getDb().getCollection(name)) {
-    getDb().addCollection(name, options);
-  }
+  return getDb().getCollection(name) || getDb().addCollection(name, options);
 };
 
+export const removeCollection = name => getDb().removeCollection(name);
+
 export const getCollection = name => getDb().getCollection(name);
+
+const addCollections = () => {
+  addCollection('accounts', { unique: ['id', 'name'], indices: ['id'] });
+  addCollection('categories', { unique: ['id', 'name'], indices: ['id'] });
+};
+
+loadDb();

@@ -1,11 +1,12 @@
 import React from 'react';
-import { withData } from '../utils/data';
-import { getAccountById } from './data';
-import { getNameByType } from './accountTypes';
 import { Link } from '@reach/router';
+import { withData } from '../utils/data';
+import { getAccountById, getTotalSpendingByCategory } from './data';
 import ColumnTypes from './columnTypes';
+import { getNameByType } from './accountTypes';
+import Chart from '../components/Chart';
 
-const Account = ({ account }) =>
+const Account = ({ account, totalSpendingByCategory }) =>
   <div>
     <h2>
       {account.name}
@@ -13,10 +14,10 @@ const Account = ({ account }) =>
     <p>
       {getNameByType(account.type)}
     </p>
-    <h2>Define import format</h2>
     <p>Current format:</p>
-    {!!account.importFormat
-      ? <table>
+    {!!account.importFormat &&
+      <React.Fragment>
+        <table>
           <thead>
             <tr>
               <th>Column Name</th>
@@ -30,7 +31,7 @@ const Account = ({ account }) =>
                   column.type !== ColumnTypes.Ignored && column.type !== ColumnTypes['Not Defined']
               )
               .map(column =>
-                <tr>
+                <tr key={column.name}>
                   <td>
                     {column.name}
                   </td>
@@ -41,7 +42,15 @@ const Account = ({ account }) =>
               )}
           </tbody>
         </table>
-      : <Link to={`/accounts/${account.id}/define-import-format`}>Define import format</Link>}
+        <div>
+          <Chart data={totalSpendingByCategory} title="Total Spending" />
+        </div>
+        <Link to={`/accounts/${account.id}/import`}>Import</Link>
+      </React.Fragment>}
+    <Link to={`/accounts/${account.id}/define-import-format`}>Define import format</Link>
   </div>;
 
-export default withData(({ accountId }) => ({ account: getAccountById(accountId) }))(Account);
+export default withData(({ accountId }) => ({
+  account: getAccountById(accountId),
+  totalSpendingByCategory: getTotalSpendingByCategory(accountId)
+}))(Account);
