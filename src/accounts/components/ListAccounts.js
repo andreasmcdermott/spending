@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from '@reach/router';
-import { withData } from '../utils/data';
-import { getAccounts } from './data';
+import { withData } from '../../utils/data';
+import { getAccounts } from '../data';
 
 const ListAccounts = ({ accounts = [] }) =>
   <div>

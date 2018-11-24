@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCategories, addFilterToCategory } from './data';
+import { getCategories, addFilter } from '../data';
 
 export default class FilterForm extends React.Component {
   state = {
@@ -79,7 +79,7 @@ export default class FilterForm extends React.Component {
         />
         <button
           onClick={() => {
-            addFilterToCategory(this.state.category, {
+            addFilter(this.state.category, {
               description: this.state.description,
               amount:
                 this.state.amount !== null

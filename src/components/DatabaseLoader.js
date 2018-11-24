@@ -1,11 +1,11 @@
 import React from 'react';
-import { getDbReady } from '../utils/db';
+import { onDbReady } from '../utils/db';
 
 export default class DatabaseLoader extends React.Component {
   constructor(...args) {
     super(...args);
     this.state = { loaded: false };
-    getDbReady(() => {
+    onDbReady(() => {
       this.setState({ loaded: true });
     });
   }

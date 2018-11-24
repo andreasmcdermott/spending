@@ -1,12 +1,13 @@
 import React from 'react';
-import { importRows } from '../utils/csv';
-import { withData } from '../utils/data';
-import { getAccountById, importSpending } from './data';
-import { mapToImportFormat } from './utils';
-import ImportTable from './ImportTable';
+import { importRows } from '../../utils/csv';
+import { withData } from '../../utils/data';
+import { getAccount } from '../../accounts/data';
+import { importTransactions } from '../data';
+import { mapToImportFormat } from '../../accounts/utils';
+import TransactionsTable from './TransactionsTable';
 import uuid from 'uuid/v4';
 
-class Import extends React.Component {
+class ImportTransactions extends React.Component {
   state = {
     rows: null,
     errors: null
@@ -17,7 +18,7 @@ class Import extends React.Component {
     rows.forEach(r => {
       r.category = manualCategories[r.id] || r.category;
     });
-    importSpending(this.props.account.id, rows);
+    importTransactions(this.props.account.id, rows);
     this.props.navigate('..');
   };
 
@@ -51,7 +52,7 @@ class Import extends React.Component {
           </React.Fragment>}
         {!!mappedRows &&
           <React.Fragment>
-            <ImportTable
+            <TransactionsTable
               rows={mappedRows}
               onRefresh={() => {
                 this.setState({});
@@ -79,5 +80,5 @@ class Import extends React.Component {
 }
 
 export default withData(({ accountId }) => ({
-  account: getAccountById(accountId)
-}))(Import);
+  account: getAccount(accountId)
+}))(ImportTransactions);

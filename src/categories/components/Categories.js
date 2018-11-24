@@ -1,14 +1,8 @@
 import React from 'react';
-import {
-  getCategories,
-  addCategory,
-  removeCategory,
-  removeFilter,
-  updateCategory
-} from '../categories/data';
-import CategoryTypes from './categoryTypes';
-import FilterForm from './FilterForm';
-import { getRandomColor } from './colors';
+import { getCategories, addCategory, removeCategory, removeFilter, updateCategory } from '../data';
+import CategoryTypes from '../../enums/category-types';
+import CategoryFilterForm from './CategoryFilterForm';
+import { getRandomColor } from '../../enums/colors';
 
 export default class Categories extends React.Component {
   state = { categories: getCategories() };
@@ -152,7 +146,7 @@ export default class Categories extends React.Component {
           />
           <button onClick={this.addCategory}>Add New Category</button>
           <hr />
-          <FilterForm
+          <CategoryFilterForm
             onSave={() => {
               this.setState({ categories: getCategories() });
             }}

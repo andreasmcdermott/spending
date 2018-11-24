@@ -1,8 +1,8 @@
 import React from 'react';
-import AccountTypes from './accountTypes';
-import Form from '../components/Form';
-import { addAccount } from './data';
-import { mapEventToChange } from '../utils/fns';
+import AccountTypes from '../../enums/account-types';
+import Form from '../../components/Form';
+import { addAccount } from '../data';
+import { mapEventToChange } from '../../utils/fns';
 
 const NewAccount = ({ navigate }) =>
   <Form

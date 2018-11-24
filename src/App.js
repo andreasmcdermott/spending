@@ -1,14 +1,14 @@
 import React from 'react';
 import { Router, Link } from '@reach/router';
-import Dashboard from './dashboard/Dashboard';
-import Accounts from './accounts/Accounts';
-import ListAccounts from './accounts/ListAccounts';
-import NewAccount from './accounts/NewAccount';
-import Account from './accounts/Account';
-import Import from './accounts/Import';
-import DefineImportFormat from './accounts/DefineImportFormat';
-import Categories from './categories/Categories';
-import UpdateImports from './accounts/UpdateImports';
+import Dashboard from './dashboard/components/Dashboard';
+import Accounts from './accounts/components/Accounts';
+import ListAccounts from './accounts/components/ListAccounts';
+import NewAccount from './accounts/components/NewAccount';
+import DefineImportFormat from './accounts/components/DefineImportFormat';
+import Account from './accounts/components/Account';
+import Categories from './categories/components/Categories';
+import ImportTransactions from './transactions/components/ImportTransactions';
+import UpdateTransactions from './transactions/components/UpdateTransactions';
 
 const App = () =>
   <div>
@@ -26,9 +26,9 @@ const App = () =>
           <NewAccount path="new" />
           <Account path=":accountId" />
           <DefineImportFormat path=":accountId/define-import-format" />
-          <Import path=":accountId/import" />
-          <UpdateImports path=":accountId/update-imports" />
         </Accounts>
+        <ImportTransactions path="transactions/:accountId/import" />
+        <UpdateTransactions path="transactions/:accountId/update" />
       </Router>
     </main>
   </div>;

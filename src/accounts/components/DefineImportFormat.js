@@ -1,7 +1,7 @@
 import React from 'react';
-import { getHeaders } from '../utils/csv';
-import ColumnTypes, { guessType } from './columnTypes';
-import { setImportFormat } from './data';
+import { getHeaders } from '../../utils/csv';
+import ColumnTypes, { guessType } from '../../enums/column-types';
+import { setImportFormat } from '../data';
 
 export default class DefineImportFormat extends React.Component {
   state = { columns: [] };

@@ -11,11 +11,11 @@ export default class Chart extends React.Component {
       data: {
         datasets: [
           {
-            data: Object.values(this.props.data).map(x => x.amount),
-            backgroundColor: Object.values(this.props.data).map(x => x.color)
+            data: this.props.data.map(x => x.amount),
+            backgroundColor: this.props.data.map(x => x.color)
           }
         ],
-        labels: Object.values(this.props.data).map(x => x.categoryName)
+        labels: this.props.data.map(x => x.categoryName)
       },
       options: {
         title: {

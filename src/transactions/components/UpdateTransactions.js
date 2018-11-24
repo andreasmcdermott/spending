@@ -1,10 +1,11 @@
 import React from 'react';
-import { getCategories } from '../categories/data';
-import { getPeriods, getRows, updateRows, getAccountById } from './data';
-import { withData } from '../utils/data';
-import ImportTable from './ImportTable';
+import { getCategories } from '../../categories/data';
+import { getAccount } from '../../accounts/data';
+import { getPeriods, getTransactions, updateTransactions } from '../data';
+import { withData } from '../../utils/data';
+import TransactionsTable from './TransactionsTable';
 
-class UpdateImports extends React.Component {
+class UpdateTransactions extends React.Component {
   state = {
     period: null,
     category: null
@@ -13,7 +14,7 @@ class UpdateImports extends React.Component {
   get rows() {
     if (!this.state.period) return [];
 
-    return getRows(this.props.accountId, {
+    return getTransactions(this.props.accountId, {
       period: parseInt(this.state.period, 10),
       category: this.state.category
     });
@@ -24,7 +25,7 @@ class UpdateImports extends React.Component {
     rows.forEach(r => {
       r.category = manualCategories[r.id] || r.category;
     });
-    updateRows(this.props.accountId, rows);
+    updateTransactions(this.props.accountId, rows);
     this.setState({});
   };
 
@@ -67,7 +68,7 @@ class UpdateImports extends React.Component {
           )}
         </select>
 
-        <ImportTable
+        <TransactionsTable
           rows={this.rows}
           onRefresh={() => {
             this.setState({});
@@ -80,6 +81,6 @@ class UpdateImports extends React.Component {
 }
 
 export default withData(({ accountId }) => ({
-  account: getAccountById(accountId),
+  account: getAccount(accountId),
   categories: getCategories()
-}))(UpdateImports);
+}))(UpdateTransactions);

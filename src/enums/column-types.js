@@ -7,6 +7,8 @@ const ColumnTypes = {
   'Not Defined': '-'
 };
 
+export const UUID = '$uuid$';
+
 export default ColumnTypes;
 
 const guesses = {

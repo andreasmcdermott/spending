@@ -1,4 +1,4 @@
-import ColumnTypes from './columnTypes';
+import ColumnTypes from '../enums/column-types';
 import { mapCategory } from '../categories/utils';
 
 export const mapToImportFormat = importFormat => {

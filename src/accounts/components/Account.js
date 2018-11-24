@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from '@reach/router';
-import { withData } from '../utils/data';
-import { getAccountById, removeAccount, getSpendingByCategory, getPeriods } from './data';
-import ColumnTypes from './columnTypes';
-import { getNameByType } from './accountTypes';
-import Chart from '../components/Chart';
+import { withData } from '../../utils/data';
+import { getAccount, removeAccount } from '../data';
+import { getTransactionsByCategory, getPeriods } from '../../transactions/data';
+import ColumnTypes from '../../enums/column-types';
+import { getNameByType } from '../../enums/account-types';
+import Chart from '../../reports/components/Chart';
 
 const Account = ({ navigate, account, spendingByCategory, firstPeriod, lastPeriod }) =>
   <div>
@@ -57,9 +58,9 @@ const Account = ({ navigate, account, spendingByCategory, firstPeriod, lastPerio
           {!!Object.keys(spendingByCategory).length &&
             <Chart data={spendingByCategory} title="Total Spending" />}
         </div>
-        <Link to={`/accounts/${account.id}/import`}>Import</Link>
+        <Link to={`/transactions/${account.id}/import`}>Import</Link>
         &nbsp;
-        <Link to={`/accounts/${account.id}/update-imports`}>Update Imports</Link>
+        <Link to={`/transactions/${account.id}/update`}>Update Imports</Link>
         &nbsp;
       </React.Fragment>}
     <Link to={`/accounts/${account.id}/define-import-format`}>Define import format</Link>
@@ -68,8 +69,8 @@ const Account = ({ navigate, account, spendingByCategory, firstPeriod, lastPerio
 export default withData(({ accountId }) => {
   const periods = getPeriods(accountId);
   return {
-    account: getAccountById(accountId),
-    spendingByCategory: getSpendingByCategory(accountId),
+    account: getAccount(accountId),
+    spendingByCategory: getTransactionsByCategory(accountId),
     firstPeriod: periods[periods.length - 1],
     lastPeriod: periods[0]
   };

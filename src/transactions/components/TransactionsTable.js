@@ -1,6 +1,6 @@
 import React from 'react';
-import FilterForm from '../categories/FilterForm';
-import { getCategories } from '../categories/data';
+import CategoryFilterForm from '../../categories/components/CategoryFilterForm';
+import { getCategories } from '../../categories/data';
 
 export default class ImportTable extends React.Component {
   state = {
@@ -15,7 +15,7 @@ export default class ImportTable extends React.Component {
 
     return (
       <React.Fragment>
-        <FilterForm
+        <CategoryFilterForm
           onSave={() => {
             this.setState({ categories: getCategories() });
             onRefresh();
