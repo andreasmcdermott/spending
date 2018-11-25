@@ -1,5 +1,6 @@
 import React from 'react';
-import { Router, Link } from '@reach/router';
+import { Router } from '@reach/router';
+import Nav from './components/Nav';
 import Dashboard from './dashboard/components/Dashboard';
 import Accounts from './accounts/components/Accounts';
 import ListAccounts from './accounts/components/ListAccounts';
@@ -12,11 +13,7 @@ import UpdateTransactions from './transactions/components/UpdateTransactions';
 
 const App = () =>
   <div>
-    <nav>
-      <Link to="/">Dashboard</Link>
-      <Link to="accounts">Accounts</Link>
-      <Link to="categories">Categories</Link>
-    </nav>
+    <Nav />
     <main>
       <Router>
         <Dashboard path="/" />

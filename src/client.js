@@ -7,6 +7,7 @@ import { addAccountsCollection } from './accounts/collection';
 import { addCategoriesCollection } from './categories/collection';
 import App from './App';
 import DatabaseLoader from './components/DatabaseLoader';
+import './styles.css';
 
 const createRootNode = () => {
   const el = document.createElement('DIV');
