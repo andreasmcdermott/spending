@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from './Button';
 
 export default class ConfirmButton extends React.Component {
   state = { clicked: false };
@@ -8,7 +9,7 @@ export default class ConfirmButton extends React.Component {
     const { clicked } = this.state;
     return clicked
       ? <span className="flex">
-          <span className="bg-grey-darker text-white p-2">Are you sure?</span>
+          <span className="bg-grey-darker text-white p-2">Sure?</span>
           <button className="bg-green p-2" onClick={onClick}>
             ✓
           </button>
@@ -21,13 +22,12 @@ export default class ConfirmButton extends React.Component {
             ✗
           </button>
         </span>
-      : <button
-          className="bg-grey-darker hover:bg-grey-darkest p-2 text-white"
+      : <Button
           onClick={() => {
             this.setState({ clicked: true });
           }}
         >
           {children}
-        </button>;
+        </Button>;
   }
 }

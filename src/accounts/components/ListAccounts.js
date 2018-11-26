@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '@reach/router';
+import NavLink from '../../components/NavLink';
 import { withData } from '../../utils/data';
 import { getAccounts } from '../data';
 import AccountTypes from '../../enums/account-types';
@@ -12,9 +12,9 @@ const AccountSection = ({ accounts, title }) =>
     <ul className="list-reset mb-4">
       {accounts.map(account =>
         <li key={account.id} className="py-1">
-          <Link to={`/accounts/${account.id}`}>
+          <NavLink to={`/accounts/${account.id}`}>
             {account.name}
-          </Link>
+          </NavLink>
         </li>
       )}
     </ul>
@@ -35,7 +35,7 @@ const ListAccounts = ({ accounts = [] }) =>
       accounts={accounts.filter(a => a.type === AccountTypes['Credit Card'])}
     />
     <span className="mt-auto">
-      <Link to="/accounts/new">+ New Account</Link>
+      <NavLink to="/accounts/new">+ New Account</NavLink>
     </span>
   </React.Fragment>;
 

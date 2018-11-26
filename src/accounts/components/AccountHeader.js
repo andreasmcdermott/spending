@@ -4,6 +4,11 @@ import Title from '../../components/Title';
 import ConfirmButton from '../../components/ConfirmButton';
 import { getNameByType } from '../../enums/account-types';
 
+const ListItem = ({ children, noBorder }) =>
+  <li className={`mr-4 pr-4 text-center ${noBorder ? '' : 'border-r'}`}>
+    {children}
+  </li>;
+
 const AccountHeader = ({ account, firstPeriod, lastPeriod, onRemove }) =>
   <React.Fragment>
     <Title>
@@ -21,23 +26,23 @@ const AccountHeader = ({ account, firstPeriod, lastPeriod, onRemove }) =>
     </Title>
 
     <div className="flex items-center mb-4 p-2 bg-grey-lighter">
-      <ul className="list-reset flex">
-        <li className="mr-4 pr-4 border-r">
+      <ul className="list-reset flex items-center">
+        <ListItem>
           <Link to={`/accounts/${account.id}`}>Dashboard</Link>
-        </li>
+        </ListItem>
         {!!account.importFormat &&
-          <li className="mr-4 pr-4 border-r">
+          <ListItem>
             <Link to={`/transactions/${account.id}/import`}>Import Transactions</Link>
-          </li>}
+          </ListItem>}
         {!!account.importFormat &&
-          <li className="mr-4 pr-4 border-r">
+          <ListItem>
             <Link to={`/transactions/${account.id}/update`}>Update Transactions</Link>
-          </li>}
-        <li>
+          </ListItem>}
+        <ListItem noBorder>
           <Link to={`/accounts/${account.id}/define-import-format`}>Import Format</Link>
-        </li>
+        </ListItem>
       </ul>
-      <span className="ml-auto">
+      <span className="ml-auto flex-none">
         <ConfirmButton onClick={onRemove}>Remove</ConfirmButton>
       </span>
     </div>
