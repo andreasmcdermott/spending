@@ -4,6 +4,7 @@ import paths from './paths';
 
 const DB_NAME = 'main.db';
 const readyListeners = [];
+let ready = false;
 const getDb = loadDb();
 
 function loadDb() {
@@ -15,6 +16,10 @@ function loadDb() {
     autosave: true,
     autosaveInterval: 1500,
     autoloadCallback: () => {
+      ready = true;
+      addedCollections.forEach(args => {
+        addCollection(...args);
+      });
       readyListeners.forEach(fn => fn());
     }
   });
@@ -25,8 +30,12 @@ export const onDbReady = fn => {
   readyListeners.push(fn);
 };
 
+const addedCollections = [];
 export const addCollection = (name, options) => {
-  return getDb().getCollection(name) || getDb().addCollection(name, options);
+  if (getDb().getCollection(name)) return;
+
+  if (ready) getDb().addCollection(name, options);
+  else addedCollections.push([name, options]);
 };
 
 export const removeCollection = name => getDb().removeCollection(name);

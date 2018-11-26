@@ -15,10 +15,8 @@ const createRootNode = () => {
   return el;
 };
 
-onDbReady(() => {
-  addAccountsCollection();
-  addCategoriesCollection();
-});
+addAccountsCollection();
+addCategoriesCollection();
 
 const root = createRootNode();
 const source = createMemorySource(getCurrentPage() || '/');
@@ -32,11 +30,7 @@ render(
       <Location>
         {({ location }) => {
           setCurrentPage(location.pathname);
-          return (
-            <strong style={{ marginTop: '2rem' }}>
-              {location.pathname}
-            </strong>
-          );
+          return null;
         }}
       </Location>
     </DatabaseLoader>

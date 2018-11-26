@@ -1,9 +1,3 @@
-import React from 'react';
-
-const Accounts = ({ children }) =>
-  <div>
-    <h1>Accounts</h1>
-    {children}
-  </div>;
+const Accounts = () => <div>Todo?</div>;
 
 export default Accounts;

@@ -1,28 +1,17 @@
 import React from 'react';
 import { Link } from '@reach/router';
-
-const LinkContainer = ({ children }) =>
-  <span className="mx-2">
-    {children}
-  </span>;
-
-const setCurrent = ({ isCurrent }) => ({
-  color: isCurrent ? 'red' : 'blue'
-});
+import ListAccounts from '../accounts/components/ListAccounts';
+import Title from './Title';
 
 const Nav = () =>
-  <nav className="flex justify-center p-2 border-b">
-    <LinkContainer>
-      <Link to="/" getProps={setCurrent}>
-        Dashboard
-      </Link>
-    </LinkContainer>
-    <LinkContainer>
-      <Link to="accounts">Accounts</Link>
-    </LinkContainer>
-    <LinkContainer>
-      <Link to="categories">Categories</Link>
-    </LinkContainer>
-  </nav>;
+  <div className="flex-none bg-grey-lighter max-h-screen">
+    <div className="p-4 flex flex-col h-full">
+      <Title>Accounts</Title>
+      <ListAccounts />
+      <div className="mt-2 pt-2 border-t text-xs">
+        <Link to="categories">Categories</Link>
+      </div>
+    </div>
+  </div>;
 
 export default Nav;

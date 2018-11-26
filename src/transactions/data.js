@@ -1,12 +1,13 @@
 import { getCollection } from '../utils/db';
 import { getCategory } from '../categories/data';
-import CategoryTypes from '../enums/category-types';
-import { sortBy } from '../utils/fns';
+import CategoryTypes, { getNameByValue } from '../enums/category-types';
+import { sortBy, memoize } from '../utils/fns';
+import { getRandomColor } from '../enums/colors';
 
 const createFilter = ({ period, category }) => {
   const filter = {};
-  if (period) filters.period = { $eq: period };
-  if (category) filters.category = { $eq: category };
+  if (period) filter.period = { $eq: period };
+  if (category) filter.category = { $eq: category };
   return filter;
 };
 
@@ -21,7 +22,7 @@ export const updateTransactions = (accountId, rows) => {
 export const getTransactions = (accountId, filters) =>
   getCollection(accountId).find(createFilter(filters));
 
-export const getTransactionsByCategory = (accountId, period) => {
+export const getTransactionsByCategory = memoize((accountId, period) => {
   const totalSpending = getTransactions(accountId, { period })
     .map(t => {
       const category = getCategory(t.category);
@@ -41,12 +42,39 @@ export const getTransactionsByCategory = (accountId, period) => {
     }, {});
 
   return Object.values(totalSpending)
-    .map(item => {
-      item.amount = Math.round(item.amount);
-      return item;
+    .map(item => ({
+      value: Math.round(item.amount),
+      color: item.color,
+      label: item.categoryName
+    }))
+    .sort(sortBy('label'));
+});
+
+export const getTransactionsByCategoryType = memoize((accountId, period) => {
+  const totalSpending = getTransactions(accountId, { period })
+    .map(t => {
+      const category = getCategory(t.category);
+      return {
+        categoryType: category.type,
+        color: getRandomColor(),
+        amount: t.amount
+      };
     })
-    .sort(sortBy('categoryName'));
-};
+    .filter(t => t.categoryType !== CategoryTypes.Ignored)
+    .reduce((totalPerCategoryType, t) => {
+      if (!totalPerCategoryType[t.categoryType]) totalPerCategoryType[t.categoryType] = { ...t };
+      else totalPerCategoryType[t.categoryType].amount += t.amount;
+      return totalPerCategoryType;
+    }, {});
+
+  return Object.values(totalSpending)
+    .map(item => ({
+      value: Math.round(item.amount),
+      label: getNameByValue(item.categoryType),
+      color: item.color
+    }))
+    .sort(sortBy('label'));
+});
 
 export const getPeriods = accountId =>
   getCollection(accountId)

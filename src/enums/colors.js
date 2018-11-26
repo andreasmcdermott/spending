@@ -1,4 +1,4 @@
-const Colors = [
+export const Colors = [
   { name: 'AliceBlue', hex: '#F0F8FF' },
   { name: 'AntiqueWhite', hex: '#FAEBD7' },
   { name: 'Aqua', hex: '#00FFFF' },
@@ -150,5 +150,5 @@ const Colors = [
 ];
 
 export const getRandomColor = () => {
-  return Colors[Math.round(Math.random() * Colors.length)].name;
+  return Colors[Math.floor(Math.random() * Colors.length)].hex;
 };
