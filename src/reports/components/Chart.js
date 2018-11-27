@@ -35,7 +35,7 @@ export default class Chart extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h3>
+        <h3 className="font-normal">
           {this.props.title}
         </h3>
         <div className="relative" style={{ height: 500 }}>

@@ -6,7 +6,7 @@ import AccountTypes from '../../enums/account-types';
 
 const AccountSection = ({ accounts, title }) =>
   <React.Fragment>
-    <h3>
+    <h3 className="font-normal text-xs border-b">
       {title}
     </h3>
     <ul className="list-reset mb-4">
@@ -32,7 +32,7 @@ const ListAccounts = ({ accounts = [] }) =>
     />
     <AccountSection
       title="Credit Cards"
-      accounts={accounts.filter(a => a.type === AccountTypes['Credit Card'])}
+      accounts={accounts.filter(a => a.type === AccountTypes.CreditCard)}
     />
     <span className="mt-auto">
       <NavLink to="/accounts/new">+ New Account</NavLink>

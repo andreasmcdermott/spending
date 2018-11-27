@@ -12,8 +12,7 @@ const ImportFormatTable = ({ account }) =>
     <tbody>
       {account.importFormat.columns
         .filter(
-          column =>
-            column.type !== ColumnTypes.Ignored && column.type !== ColumnTypes['Not Defined']
+          column => column.type !== ColumnTypes.Ignored && column.type !== ColumnTypes.NotDefined
         )
         .map(column =>
           <tr key={column.name}>

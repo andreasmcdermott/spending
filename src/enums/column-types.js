@@ -4,7 +4,7 @@ const ColumnTypes = {
   Amount: '$',
   Description: '?',
   Ignored: 'i',
-  'Not Defined': '-'
+  NotDefined: '-'
 };
 
 export const UUID = '$uuid$';
@@ -22,4 +22,4 @@ export const guessType = name =>
   Object.entries(guesses).reduce((found, [type, regex]) => {
     if (found) return found;
     return regex.test(name) ? type : null;
-  }, null) || ColumnTypes['Not Defined'];
+  }, null) || ColumnTypes.NotDefined;

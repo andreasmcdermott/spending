@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from '@reach/router';
+import Link from '../../components/Link';
 import Title from '../../components/Title';
 import ConfirmButton from '../../components/ConfirmButton';
 import { getNameByType } from '../../enums/account-types';
 
 const ListItem = ({ children, noBorder }) =>
-  <li className={`mr-4 pr-4 text-center ${noBorder ? '' : 'border-r'}`}>
+  <li className={`mr-4 pr-4 text-center ${noBorder ? '' : 'border-r border-yellow-dark'}`}>
     {children}
   </li>;
 
@@ -25,7 +25,7 @@ const AccountHeader = ({ account, firstPeriod, lastPeriod, onRemove }) =>
       </React.Fragment>
     </Title>
 
-    <div className="flex items-center mb-4 p-2 bg-grey-lighter">
+    <div className="flex items-center mb-4 p-2 bg-yellow-lighter border border-yellow-dark">
       <ul className="list-reset flex items-center">
         <ListItem>
           <Link to={`/accounts/${account.id}`}>Dashboard</Link>

@@ -15,3 +15,8 @@ export const memoize = fn => (...args) => {
   memoCache[fn] = { args, value };
   return value;
 };
+
+const isUpperCase = letter => /[A-Z]/.test(letter);
+
+export const labelifyCamelCase = str =>
+  str.split('').reduce((acc, l) => acc + (isUpperCase(l) ? ' ' : '') + l).trim();

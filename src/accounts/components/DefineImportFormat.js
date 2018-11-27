@@ -15,7 +15,7 @@ export default class DefineImportFormat extends React.Component {
     const { columns } = this.state;
     this.setState({
       columns: columns.map(c => {
-        if (c.type === ColumnTypes['Not Defined']) return { ...c, type: ColumnTypes.Ignored };
+        if (c.type === ColumnTypes.NotDefined) return { ...c, type: ColumnTypes.Ignored };
         return c;
       })
     });
@@ -68,8 +68,7 @@ export default class DefineImportFormat extends React.Component {
         <ul>
           {Object.entries(ColumnTypes)
             .filter(
-              ([key, value]) =>
-                value !== ColumnTypes.Ignored && value !== ColumnTypes['Not Defined']
+              ([key, value]) => value !== ColumnTypes.Ignored && value !== ColumnTypes.NotDefined
             )
             .map(([key, value]) =>
               <li key={value}>
