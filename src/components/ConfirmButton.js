@@ -9,12 +9,11 @@ export default class ConfirmButton extends React.Component {
     const { clicked } = this.state;
     return clicked
       ? <span className="flex">
-          <span className="bg-grey-darker text-white p-2">Sure?</span>
-          <button className="bg-green p-2" onClick={onClick}>
+          <button className="bg-green w-6 h-6 rounded-full" onClick={onClick}>
             ✓
           </button>
           <button
-            className="bg-red p-2"
+            className="bg-red w-6 h-6 rounded-full"
             onClick={() => {
               this.setState({ clicked: false });
             }}
@@ -22,12 +21,13 @@ export default class ConfirmButton extends React.Component {
             ✗
           </button>
         </span>
-      : <Button
+      : <button
+          className="bg-grey-darker hover:bg-grey-darkest w-6 h-6 text-white rounded-full"
           onClick={() => {
             this.setState({ clicked: true });
           }}
         >
           {children}
-        </Button>;
+        </button>;
   }
 }

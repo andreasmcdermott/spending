@@ -21,7 +21,10 @@ export default class Chart extends React.Component {
     this.chart = new ChartJs(this.canvasRef.current.getContext('2d'), {
       type: 'doughnut',
       data: this.getData(),
-      options: { maintainAspectRatio: false }
+      options: {
+        maintainAspectRatio: false,
+        legend: { display: true, labels: { fontColor: 'black', strokeStyle: 'black' } }
+      }
     });
   }
 
@@ -34,14 +37,14 @@ export default class Chart extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <h3 className="font-normal">
+      <div className="bg-blue-lightest p-2 mb-2">
+        <h3 className="font-normal pb-1 mb-2 border-b border-blue-dark">
           {this.props.title}
         </h3>
         <div className="relative" style={{ height: 500 }}>
           <canvas ref={this.canvasRef} />
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

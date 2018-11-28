@@ -4,8 +4,8 @@ import Title from '../../components/Title';
 import ConfirmButton from '../../components/ConfirmButton';
 import { getNameByType } from '../../enums/account-types';
 
-const ListItem = ({ children, noBorder }) =>
-  <li className={`mr-4 pr-4 text-center ${noBorder ? '' : 'border-r border-yellow-dark'}`}>
+const ListItem = ({ children }) =>
+  <li className={`mr-4 text-center`}>
     {children}
   </li>;
 
@@ -14,19 +14,24 @@ const AccountHeader = ({ account, firstPeriod, lastPeriod, onRemove }) =>
     <Title>
       <React.Fragment>
         <span className="flex items-end">
-          {account.name}
+          <span>
+            {account.name}
+          </span>
           <span className="ml-2 mr-2 pr-2 border-r text-xs font-normal">
             {getNameByType(account.type)}
           </span>
           <span className="text-xs font-normal">
             Imported periods: {firstPeriod + 1} - {lastPeriod + 1}
           </span>
+          <span className="ml-auto flex-none text-xs">
+            <ConfirmButton onClick={onRemove}>X</ConfirmButton>
+          </span>
         </span>
       </React.Fragment>
     </Title>
 
-    <div className="flex items-center mb-4 p-2 bg-yellow-lighter border border-yellow-dark">
-      <ul className="list-reset flex items-center">
+    <div className="flex items-center mb-6 border-y">
+      <ul className="list-reset flex items-center text-xs">
         <ListItem>
           <Link to={`/accounts/${account.id}`}>Dashboard</Link>
         </ListItem>
@@ -38,13 +43,10 @@ const AccountHeader = ({ account, firstPeriod, lastPeriod, onRemove }) =>
           <ListItem>
             <Link to={`/transactions/${account.id}/update`}>Update Transactions</Link>
           </ListItem>}
-        <ListItem noBorder>
+        <ListItem>
           <Link to={`/accounts/${account.id}/define-import-format`}>Import Format</Link>
         </ListItem>
       </ul>
-      <span className="ml-auto flex-none">
-        <ConfirmButton onClick={onRemove}>Remove</ConfirmButton>
-      </span>
     </div>
   </React.Fragment>;
 

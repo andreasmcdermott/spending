@@ -50,13 +50,17 @@ export const getTransactionsByCategory = memoize((accountId, period) => {
     .sort(sortBy('label'));
 });
 
+const categoryTypeColors = {
+  [CategoryTypes.Income]: 'limegreen',
+  [CategoryTypes.Spending]: 'tomato'
+};
 export const getTransactionsByCategoryType = memoize((accountId, period) => {
   const totalSpending = getTransactions(accountId, { period })
     .map(t => {
       const category = getCategory(t.category);
       return {
         categoryType: category.type,
-        color: getRandomColor(),
+        color: categoryTypeColors[category.type],
         amount: t.amount
       };
     })
