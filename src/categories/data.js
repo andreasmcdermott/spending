@@ -3,13 +3,19 @@ import { createIdFromName, sortBy } from '../utils/fns';
 import { getRandomColor } from '../enums/colors';
 import CategoryTypes from '../enums/category-types';
 
-export const getCategories = () => getCollection().find({}).sort(sortBy('name'));
+export const getCategories = async () => {
+  const collection = await getCollection();
+  return collection.find({}).sort(sortBy('name'));
+};
 
-export const getCategory = id => getCollection().findOne({ id });
+export const getCategory = async id => {
+  const collection = await getCollection();
+  return collection.findOne({ id });
+};
 
-export const addCategory = name => {
+export const addCategory = async name => {
   const id = createIdFromName(name);
-  const categories = getCollection();
+  const categories = await getCollection();
   categories.insert({
     id,
     name,
@@ -20,8 +26,8 @@ export const addCategory = name => {
   });
 };
 
-export const updateCategory = category => {
-  const categories = getCollection();
+export const updateCategory = async category => {
+  const categories = await getCollection();
   categories.update(category);
 };
 
@@ -30,15 +36,15 @@ export const removeCategory = id => {
   categories.findAndRemove({ id });
 };
 
-export const addFilter = (id, filter) => {
-  const categories = getCollection();
+export const addFilter = async (id, filter) => {
+  const categories = await getCollection();
   const category = categories.findOne({ id });
   category.filters.push(filter);
   categories.update(category);
 };
 
-export const removeFilter = (id, index) => {
-  const categories = getCollection();
+export const removeFilter = async (id, index) => {
+  const categories = await getCollection();
   const category = categories.findOne({ id });
   category.filters.splice(index, 1);
   categories.update(category);

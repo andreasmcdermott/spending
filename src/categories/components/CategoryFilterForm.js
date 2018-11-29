@@ -2,12 +2,22 @@ import React from 'react';
 import { getCategories, addFilter } from '../data';
 
 export default class FilterForm extends React.Component {
-  state = {
-    categories: getCategories(),
-    category: '',
-    description: '',
-    amount: null,
-    amountCompare: '='
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      categories: [],
+      category: '',
+      description: '',
+      amount: null,
+      amountCompare: '='
+    };
+    this.refreshCategories();
+  }
+
+  refreshCategories = () => {
+    getCategories().then(categories => {
+      this.setState({ categories });
+    });
   };
 
   render() {
@@ -89,7 +99,8 @@ export default class FilterForm extends React.Component {
                     }
                   : null
             });
-            this.setState({ categories: getCategories(), description: '', amount: null });
+            this.refreshCategories();
+            this.setState({ description: '', amount: null });
             this.props.onSave && this.props.onSave();
           }}
         >

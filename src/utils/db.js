@@ -3,7 +3,8 @@ import LokiFsStructuredAdapter from 'lokijs/src/loki-fs-structured-adapter';
 import paths from './paths';
 
 const DB_NAME = 'main.db';
-const readyListeners = [];
+const internalReadyListeners = [];
+const externalReadyListeners = [];
 let ready = false;
 const getDb = loadDb();
 
@@ -17,29 +18,48 @@ function loadDb() {
     autosaveInterval: 1500,
     autoloadCallback: () => {
       ready = true;
-      addedCollections.forEach(args => {
-        addCollection(...args);
-      });
-      readyListeners.forEach(fn => fn());
+      internalReadyListeners.forEach(fn => fn());
+      externalReadyListeners.forEach(fn => fn());
     }
   });
   return () => db;
 }
 
 export const onDbReady = fn => {
-  readyListeners.push(fn);
+  externalReadyListeners.push(fn);
 };
 
-const addedCollections = [];
-export const addCollection = (name, options) => {
-  if (getDb().getCollection(name)) return;
-
-  if (ready) getDb().addCollection(name, options);
-  else addedCollections.push([name, options]);
+const whenReady = fn => {
+  if (ready) {
+    fn();
+  } else {
+    internalReadyListeners.push(fn);
+  }
 };
 
-export const removeCollection = name => getDb().removeCollection(name);
+export const addCollection = async (name, options) =>
+  new Promise(resolve => {
+    if (getDb().getCollection(name)) resolve();
 
-export const getCollection = name => getDb().getCollection(name);
+    whenReady(() => {
+      getDb().addCollection(name, options);
+      resolve();
+    });
+  });
+
+export const removeCollection = async name =>
+  new Promise(resolve => {
+    whenReady(() => {
+      getDb().removeCollection(name);
+      resolve();
+    });
+  });
+
+export const getCollection = async name =>
+  new Promise(resolve => {
+    whenReady(() => {
+      resolve(getDb().getCollection(name));
+    });
+  });
 
 loadDb();

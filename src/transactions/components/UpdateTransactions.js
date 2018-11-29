@@ -45,7 +45,7 @@ class UpdateTransactions extends React.Component {
           }}
         >
           <option value="">Select month</option>
-          {getPeriods(this.props.accountId).map(p => ({ value: p, label: String(p + 1) })).map(p =>
+          {this.props.periods.map(p => ({ value: p, label: String(p + 1) })).map(p =>
             <option key={p.value} value={p.value}>
               {p.label}
             </option>
@@ -81,6 +81,7 @@ class UpdateTransactions extends React.Component {
 }
 
 export default withData(({ accountId }) => ({
+  periods: getPeriods(accountId),
   account: getAccount(accountId),
   categories: getCategories()
 }))(UpdateTransactions);

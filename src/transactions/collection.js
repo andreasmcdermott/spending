@@ -1,5 +1,5 @@
 import { addCollection } from '../utils/db';
 
-export const addTransactionsCollection = accountId => {
-  addCollection(accountId, { unique: ['id'], indices: ['category', 'period'] });
+export const addTransactionsCollection = async accountId => {
+  await addCollection(accountId, { unique: ['id'], indices: ['category', 'period'] });
 };

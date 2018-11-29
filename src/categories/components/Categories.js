@@ -5,17 +5,29 @@ import CategoryFilterForm from './CategoryFilterForm';
 import { getRandomColor } from '../../enums/colors';
 
 export default class Categories extends React.Component {
-  state = { categories: getCategories() };
   categoryNameNode = null;
+
+  constructor(...args) {
+    super(...args);
+    this.state = { categories: [] };
+    this.refreshCategories();
+  }
 
   addCategory = () => {
     addCategory(this.categoryNameNode.value);
     this.categoryNameNode.value = '';
-    this.setState({ categories: getCategories() });
+    this.refreshCategories();
+  };
+
+  refreshCategories = () => {
+    getCategories().then(categories => {
+      this.setState({ categories });
+    });
   };
 
   render() {
     const { categories } = this.state;
+
     return (
       <div>
         <h3>Categories</h3>
@@ -44,7 +56,7 @@ export default class Categories extends React.Component {
                           <button
                             onClick={() => {
                               removeFilter(c.id, i);
-                              this.setState({ categories: getCategories() });
+                              this.refreshCategories();
                             }}
                           >
                             Del
@@ -62,7 +74,7 @@ export default class Categories extends React.Component {
                       onChange={() => {
                         c.type = CategoryTypes.Spending;
                         updateCategory(c);
-                        this.setState({ categories: getCategories() });
+                        this.refreshCategories();
                       }}
                     />{' '}
                     Spending
@@ -75,7 +87,7 @@ export default class Categories extends React.Component {
                       onChange={() => {
                         c.type = CategoryTypes.Income;
                         updateCategory(c);
-                        this.setState({ categories: getCategories() });
+                        this.refreshCategories();
                       }}
                     />{' '}
                     Income
@@ -88,7 +100,7 @@ export default class Categories extends React.Component {
                       onChange={() => {
                         c.type = CategoryTypes.Ignored;
                         updateCategory(c);
-                        this.setState({ categories: getCategories() });
+                        this.refreshCategories();
                       }}
                     />{' '}
                     Ignored
@@ -109,14 +121,14 @@ export default class Categories extends React.Component {
                     onChange={e => {
                       c.color = e.target.value;
                       updateCategory(c);
-                      this.setState({ categories: getCategories() });
+                      this.refreshCategories();
                     }}
                   />
                   <button
                     onClick={() => {
                       c.color = getRandomColor();
                       updateCategory(c);
-                      this.setState({ categories: getCategories() });
+                      this.refreshCategories();
                     }}
                   >
                     Random Color
@@ -126,7 +138,7 @@ export default class Categories extends React.Component {
                   <button
                     onClick={() => {
                       removeCategory(c.id);
-                      this.setState({ categories: getCategories() });
+                      this.refreshCategories();
                     }}
                   >
                     Remove
@@ -146,11 +158,7 @@ export default class Categories extends React.Component {
           />
           <button onClick={this.addCategory}>Add New Category</button>
           <hr />
-          <CategoryFilterForm
-            onSave={() => {
-              this.setState({ categories: getCategories() });
-            }}
-          />
+          <CategoryFilterForm onSave={this.refreshCategories} />
         </div>
       </div>
     );

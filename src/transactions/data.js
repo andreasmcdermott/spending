@@ -1,8 +1,7 @@
 import { getCollection } from '../utils/db';
-import { getCategory } from '../categories/data';
+import { getCategory, getCategories } from '../categories/data';
 import CategoryTypes, { getNameByValue } from '../enums/category-types';
 import { sortBy, memoize } from '../utils/fns';
-import { getRandomColor } from '../enums/colors';
 
 const createFilter = ({ period, category }) => {
   const filter = {};
@@ -11,21 +10,28 @@ const createFilter = ({ period, category }) => {
   return filter;
 };
 
-export const importTransactions = (accountId, rows) => {
-  getCollection(accountId).insert(rows);
+export const importTransactions = async (accountId, rows) => {
+  const collection = await getCollection(accountId);
+  collection.insert(rows);
 };
 
-export const updateTransactions = (accountId, rows) => {
-  getCollection(accountId).update(rows);
+export const updateTransactions = async (accountId, rows) => {
+  const collection = await getCollection(accountId);
+  collection.update(rows);
 };
 
-export const getTransactions = (accountId, filters) =>
-  getCollection(accountId).find(createFilter(filters));
+export const getTransactions = async (accountId, filters) => {
+  const collection = await getCollection(accountId);
+  return collection.find(createFilter(filters));
+};
 
-export const getTransactionsByCategory = memoize((accountId, period) => {
-  const totalSpending = getTransactions(accountId, { period })
+export const getTransactionsByCategory = memoize(async (accountId, period) => {
+  const transactions = await getTransactions(accountId, { period });
+  const categories = await getCategories();
+
+  const totalSpending = transactions
     .map(t => {
-      const category = getCategory(t.category);
+      const category = categories.find(c => c.id === t.category);
       return {
         category: t.category,
         categoryType: category.type,
@@ -54,10 +60,13 @@ const categoryTypeColors = {
   [CategoryTypes.Income]: 'limegreen',
   [CategoryTypes.Spending]: 'tomato'
 };
-export const getTransactionsByCategoryType = memoize((accountId, period) => {
-  const totalSpending = getTransactions(accountId, { period })
+export const getTransactionsByCategoryType = memoize(async (accountId, period) => {
+  const transactions = await getTransactions(accountId, { period });
+  const categories = await getCategories();
+
+  const totalSpending = transactions
     .map(t => {
-      const category = getCategory(t.category);
+      const category = categories.find(c => c.id === t.category);
       return {
         categoryType: category.type,
         color: categoryTypeColors[category.type],
@@ -80,7 +89,19 @@ export const getTransactionsByCategoryType = memoize((accountId, period) => {
     .sort(sortBy('label'));
 });
 
-export const getPeriods = accountId =>
-  getCollection(accountId)
+export const getPeriods = async accountId => {
+  const collection = await getCollection(accountId);
+  return collection
     .mapReduce(row => row.period, rows => [...new Set(rows)])
     .sort((p1, p2) => p2 - p1);
+};
+
+export const getFirstPeriod = async accountId => {
+  const periods = await getPeriods(accountId);
+  return periods[periods.length - 1];
+};
+
+export const getLastPeriod = async accountId => {
+  const periods = await getPeriods(accountId);
+  return periods[0];
+};

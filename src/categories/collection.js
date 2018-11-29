@@ -2,8 +2,8 @@ import { addCollection, getCollection } from '../utils/db';
 
 const CATEGORIES = 'categories';
 
-export const addCategoriesCollection = () => {
-  addCollection(CATEGORIES, { unique: ['id', 'name'], indices: ['id'] });
+export const addCategoriesCollection = async () => {
+  await addCollection(CATEGORIES, { unique: ['id', 'name'], indices: ['id'] });
 };
 
-export default () => getCollection(CATEGORIES);
+export default async () => getCollection(CATEGORIES);

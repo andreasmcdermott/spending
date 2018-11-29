@@ -4,7 +4,8 @@ import { getAccount, removeAccount } from '../data';
 import {
   getTransactionsByCategory,
   getTransactionsByCategoryType,
-  getPeriods
+  getFirstPeriod,
+  getLastPeriod
 } from '../../transactions/data';
 import Chart from '../../reports/components/Chart';
 import AccountHeader from './AccountHeader';
@@ -36,14 +37,10 @@ const Account = ({
       </div>}
   </div>;
 
-export default withData(({ accountId }) => {
-  const periods = getPeriods(accountId);
-
-  return {
-    account: getAccount(accountId),
-    spendingByCategory: getTransactionsByCategory(accountId),
-    spendingVsIncome: getTransactionsByCategoryType(accountId),
-    firstPeriod: periods[periods.length - 1],
-    lastPeriod: periods[0]
-  };
-})(Account);
+export default withData(({ accountId }) => ({
+  account: getAccount(accountId),
+  spendingByCategory: getTransactionsByCategory(accountId),
+  spendingVsIncome: getTransactionsByCategoryType(accountId),
+  firstPeriod: getFirstPeriod(accountId),
+  lastPeriod: getLastPeriod(accountId)
+}))(Account);

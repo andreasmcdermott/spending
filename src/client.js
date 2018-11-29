@@ -2,7 +2,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import { createMemorySource, createHistory, LocationProvider, Location } from '@reach/router';
 import { getCurrentPage, setCurrentPage } from './localStorage';
-import { onDbReady } from './utils/db';
 import { addAccountsCollection } from './accounts/collection';
 import { addCategoriesCollection } from './categories/collection';
 import App from './App';
