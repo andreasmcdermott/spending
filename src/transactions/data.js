@@ -49,11 +49,11 @@ export const getTransactionsByCategory = memoize(async (accountId, period) => {
 
   return Object.values(totalSpending)
     .map(item => ({
-      value: Math.round(item.amount),
+      value: Math.abs(Math.round(item.amount)),
       color: item.color,
-      label: item.categoryName
+      name: item.categoryName
     }))
-    .sort(sortBy('label'));
+    .sort(sortBy('name'));
 });
 
 const categoryTypeColors = {
@@ -82,11 +82,11 @@ export const getTransactionsByCategoryType = memoize(async (accountId, period) =
 
   return Object.values(totalSpending)
     .map(item => ({
-      value: Math.round(item.amount),
-      label: getNameByValue(item.categoryType),
+      value: Math.abs(Math.round(item.amount)),
+      name: getNameByValue(item.categoryType),
       color: item.color
     }))
-    .sort(sortBy('label'));
+    .sort(sortBy('name'));
 });
 
 export const getPeriods = async accountId => {

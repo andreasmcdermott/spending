@@ -79,6 +79,9 @@ class ImportTransactions extends React.Component {
   }
 }
 
-export default withData(({ accountId }) => ({
-  account: getAccount(accountId)
-}))(ImportTransactions);
+export default withData(
+  ({ accountId }) => ({
+    account: getAccount(accountId)
+  }),
+  ['accountId']
+)(ImportTransactions);

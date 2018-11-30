@@ -80,8 +80,11 @@ class UpdateTransactions extends React.Component {
   }
 }
 
-export default withData(({ accountId }) => ({
-  periods: getPeriods(accountId),
-  account: getAccount(accountId),
-  categories: getCategories()
-}))(UpdateTransactions);
+export default withData(
+  ({ accountId }) => ({
+    periods: getPeriods(accountId),
+    account: getAccount(accountId),
+    categories: getCategories()
+  }),
+  ['accountId']
+)(UpdateTransactions);

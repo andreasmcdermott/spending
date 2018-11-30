@@ -1,15 +1,18 @@
 import React from 'react';
 
-export const withData = getData => Component => {
+export const withData = (getData, watchedProps) => Component => {
   return class WithData extends React.Component {
     static displayName = `WithData(${Component.name})`;
 
     constructor(...args) {
       super(...args);
       this.state = {
-        loaded: false,
         data: null
       };
+      this.loadData();
+    }
+
+    loadData() {
       const data = getData(this.props);
       const resolvedData = {};
       const promises = Object.entries(data).map(([key, value]) => {
@@ -23,12 +26,26 @@ export const withData = getData => Component => {
         return value;
       });
       Promise.all(promises).then(() => {
-        this.setState({ data: resolvedData, loaded: true });
+        this.setState({ data: resolvedData });
       });
     }
 
+    componentDidUpdate(prevProps) {
+      if (!watchedProps) return;
+      if (watchedProps.some(key => this.props[key] !== prevProps[key])) {
+        this.setState(
+          {
+            data: null
+          },
+          () => {
+            this.loadData();
+          }
+        );
+      }
+    }
+
     render() {
-      return this.state.loaded ? <Component {...this.props} {...this.state.data} /> : null;
+      return !!this.state.data ? <Component {...this.props} {...this.state.data} /> : null;
     }
   };
 };

@@ -37,10 +37,13 @@ const Account = ({
       </div>}
   </div>;
 
-export default withData(({ accountId }) => ({
-  account: getAccount(accountId),
-  spendingByCategory: getTransactionsByCategory(accountId),
-  spendingVsIncome: getTransactionsByCategoryType(accountId),
-  firstPeriod: getFirstPeriod(accountId),
-  lastPeriod: getLastPeriod(accountId)
-}))(Account);
+export default withData(
+  ({ accountId }) => ({
+    account: getAccount(accountId),
+    spendingByCategory: getTransactionsByCategory(accountId),
+    spendingVsIncome: getTransactionsByCategoryType(accountId),
+    firstPeriod: getFirstPeriod(accountId),
+    lastPeriod: getLastPeriod(accountId)
+  }),
+  ['accountId']
+)(Account);
