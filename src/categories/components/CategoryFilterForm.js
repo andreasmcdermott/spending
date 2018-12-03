@@ -1,42 +1,18 @@
 import React from 'react';
-import { getCategories, addFilter } from '../data';
+import Button from '../../components/Button';
 
 export default class FilterForm extends React.Component {
-  constructor(...args) {
-    super(...args);
-    this.state = {
-      categories: [],
-      category: '',
-      description: '',
-      amount: null,
-      amountCompare: '='
-    };
-    this.refreshCategories();
-  }
-
-  refreshCategories = () => {
-    getCategories().then(categories => {
-      this.setState({ categories });
-    });
+  state = {
+    description: '',
+    amount: null,
+    amountCompare: '='
   };
 
   render() {
     return (
       <div>
-        <select
-          value={this.state.category}
-          onChange={e => {
-            this.setState({ category: e.target.value });
-          }}
-        >
-          <option value="">Select category</option>
-          {this.state.categories.map(c =>
-            <option value={c.id} key={c.id}>
-              {c.name}
-            </option>
-          )}
-        </select>
         <input
+          className="border p-1 mr-2 text-xs"
           placeholder="Description"
           value={this.state.description}
           onChange={e => {
@@ -44,40 +20,24 @@ export default class FilterForm extends React.Component {
           }}
           type="text"
         />
-        <label>
-          <input
-            type="radio"
-            name="amountCompare"
-            value="="
-            checked={this.state.amountCompare === '='}
-            onChange={() => {
-              this.setState({ amountCompare: '=' });
-            }}
-          />&#61;
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="amountCompare"
-            value=">"
-            checked={this.state.amountCompare === '>'}
-            onChange={() => {
-              this.setState({ amountCompare: '>' });
-            }}
-          />&gt;
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="amountCompare"
-            value="<"
-            checked={this.state.amountCompare === '<'}
-            onChange={() => {
-              this.setState({ amountCompare: '<' });
-            }}
-          />&lt;
-        </label>
+        {['=', '<', '>'].map(type =>
+          <label key={type} className="mr-1 text-xs">
+            <input
+              className="mr-1"
+              type="radio"
+              name="amountCompare"
+              value={type}
+              checked={this.state.amountCompare === type}
+              onChange={() => {
+                this.setState({ amountCompare: type });
+              }}
+            />
+            {type}
+          </label>
+        )}
+
         <input
+          className="border text-xs p-1"
           placeholder="Amount"
           value={String(this.state.amount != null ? String(this.state.amount) : '')}
           onChange={e => {
@@ -87,25 +47,29 @@ export default class FilterForm extends React.Component {
           }}
           type="number"
         />
-        <button
-          onClick={() => {
-            addFilter(this.state.category, {
-              description: this.state.description,
-              amount:
-                this.state.amount !== null
-                  ? {
-                      value: this.state.amount,
-                      type: this.state.amountCompare
-                    }
-                  : null
-            });
-            this.refreshCategories();
-            this.setState({ description: '', amount: null });
-            this.props.onSave && this.props.onSave();
-          }}
-        >
-          Add Category Filter
-        </button>
+        <span className="mx-1">
+          <Button
+            small
+            variant="primary"
+            onClick={() => {
+              this.props.onSave({
+                description: this.state.description,
+                amount:
+                  this.state.amount !== null
+                    ? {
+                        value: this.state.amount,
+                        type: this.state.amountCompare
+                      }
+                    : null
+              });
+            }}
+          >
+            Add Filter
+          </Button>
+        </span>
+        <Button small onClick={this.props.onCancel}>
+          Cancel
+        </Button>
       </div>
     );
   }

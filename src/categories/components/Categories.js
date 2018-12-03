@@ -1,8 +1,8 @@
 import React from 'react';
-import { getCategories, addCategory, removeCategory, removeFilter, updateCategory } from '../data';
-import CategoryTypes from '../../enums/category-types';
-import CategoryFilterForm from './CategoryFilterForm';
-import { getRandomColor } from '../../enums/colors';
+import { getCategories, addCategory } from '../data';
+import Title from '../../components/Title';
+import Button from '../../components/Button';
+import Category from './Category';
 
 export default class Categories extends React.Component {
   categoryNameNode = null;
@@ -30,136 +30,31 @@ export default class Categories extends React.Component {
 
     return (
       <div>
-        <h3>Categories</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Filters</th>
-              <th>Type</th>
-              <th>Color</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {categories.map(c =>
-              <tr key={c.id}>
-                <td>
-                  {c.name}
-                </td>
-                <td>
-                  {!!c.filters &&
-                    <ul>
-                      {c.filters.map((f, i) =>
-                        <li key={i}>
-                          {f.description} | {!!f.amount ? `${f.amount.type}${f.amount.value}` : '-'}
-                          <button
-                            onClick={() => {
-                              removeFilter(c.id, i);
-                              this.refreshCategories();
-                            }}
-                          >
-                            Del
-                          </button>
-                        </li>
-                      )}
-                    </ul>}
-                </td>
-                <td>
-                  <label>
-                    <input
-                      type="radio"
-                      value={CategoryTypes.Spending}
-                      checked={c.type === CategoryTypes.Spending}
-                      onChange={() => {
-                        c.type = CategoryTypes.Spending;
-                        updateCategory(c);
-                        this.refreshCategories();
-                      }}
-                    />{' '}
-                    Spending
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      value={CategoryTypes.Income}
-                      checked={c.type === CategoryTypes.Income}
-                      onChange={() => {
-                        c.type = CategoryTypes.Income;
-                        updateCategory(c);
-                        this.refreshCategories();
-                      }}
-                    />{' '}
-                    Income
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      value={CategoryTypes.Ignored}
-                      checked={c.type === CategoryTypes.Ignored}
-                      onChange={() => {
-                        c.type = CategoryTypes.Ignored;
-                        updateCategory(c);
-                        this.refreshCategories();
-                      }}
-                    />{' '}
-                    Ignored
-                  </label>
-                </td>
-                <td>
-                  <span
-                    style={{
-                      display: 'inline-block',
-                      backgroundColor: c.color,
-                      width: '16px',
-                      height: '16px'
-                    }}
-                  />
-                  <input
-                    type="text"
-                    value={c.color}
-                    onChange={e => {
-                      c.color = e.target.value;
-                      updateCategory(c);
-                      this.refreshCategories();
-                    }}
-                  />
-                  <button
-                    onClick={() => {
-                      c.color = getRandomColor();
-                      updateCategory(c);
-                      this.refreshCategories();
-                    }}
-                  >
-                    Random Color
-                  </button>
-                </td>
-                <td>
-                  <button
-                    onClick={() => {
-                      removeCategory(c.id);
-                      this.refreshCategories();
-                    }}
-                  >
-                    Remove
-                  </button>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        <div>
+        <Title>Categories</Title>
+
+        <div className="mb-4">
           <input
             ref={node => {
               this.categoryNameNode = node;
             }}
+            className="p-2 border mr-1"
             type="text"
-            placeholder="name"
+            placeholder="Category Name"
           />
-          <button onClick={this.addCategory}>Add New Category</button>
-          <hr />
-          <CategoryFilterForm onSave={this.refreshCategories} />
+          <Button variant="primary" onClick={this.addCategory}>
+            Add New Category
+          </Button>
         </div>
+
+        {categories.map(c =>
+          <Category
+            key={c.id}
+            category={c}
+            onChange={() => {
+              this.refreshCategories();
+            }}
+          />
+        )}
       </div>
     );
   }

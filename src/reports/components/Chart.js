@@ -14,7 +14,7 @@ export default function Chart({ title, data }) {
           data={data}
           dataKey="value"
           nameKey="name"
-          innerRadius={80}
+          innerRadius={50}
           outerRadius={120}
           startAngle={90}
           endAngle={450}
