@@ -1,30 +1,22 @@
-import getCollection from './collection';
+import getDb from '../db/db';
 import { addTransactionsCollection } from '../transactions/collection';
 import ColumnTypes, { UUID } from '../enums/column-types';
 import { createIdFromName, sortBy } from '../utils/fns';
 
-export const getAccount = async id => {
-  const collection = await getCollection();
-  return collection.findOne({ id });
-};
+const collection = getDb().getCollection('accounts');
 
-export const getAccounts = async () => {
-  const collection = await getCollection();
-  return collection.find({}).sort(sortBy('name'));
-};
+export const getAccount = async id => collection.findById(id);
+export const getAccounts = async () => collection.findAll().sort(sortBy('name'));
 
 export const addAccount = async account => {
-  if (!account.name || !account.type) throw new Error('Invalid account');
-
-  account.id = createIdFromName(account.name);
-  await addTransactionsCollection(account.id);
-  const collection = await getCollection();
-  collection.insert(account);
+  // if (!account.name || !account.type) throw new Error('Invalid account');
+  // account.id = createIdFromName(account.name);
+  // await addTransactionsCollection(account.id);
+  // collection.insert(account);
 };
 
 export const removeAccount = async id => {
-  const collection = await getCollection();
-  collection.findAndRemove({ id });
+  collection.removeById(id);
 };
 
 const validateImportFormat = importFormat => {

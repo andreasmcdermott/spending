@@ -6,10 +6,15 @@ const rootFolder = path.resolve(__dirname);
 const debug = process.env.ENV === 'development';
 
 const createWindow = () => {
-  mainWindow = new BrowserWindow({ width: 800, height: 600 });
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
 
-  if (debug) mainWindow.loadURL('http://localhost:9000/index.html');
-  else mainWindow.loadFile(path.resolve(rootFolder, 'dist', 'index.html'));
+  mainWindow.loadFile(path.resolve(rootFolder, 'index.html'));
 
   if (debug) {
     mainWindow.maximize();

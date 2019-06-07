@@ -17,7 +17,7 @@ const Account = ({
   spendingVsIncome,
   firstPeriod,
   lastPeriod
-}) =>
+}) => (
   <div>
     <AccountHeader
       account={account}
@@ -29,13 +29,16 @@ const Account = ({
       }}
     />
 
-    {!!account.importFormat &&
+    {!!account.importFormat && (
       <div className="flex flex-col">
-        {!!spendingByCategory.length &&
-          <Chart data={spendingByCategory} title="Spending By Category" />}
+        {!!spendingByCategory.length && (
+          <Chart data={spendingByCategory} title="Spending By Category" />
+        )}
         {!!spendingVsIncome.length && <Chart data={spendingVsIncome} title="Spending vs Income" />}
-      </div>}
-  </div>;
+      </div>
+    )}
+  </div>
+);
 
 export default withData(
   ({ accountId }) => ({
