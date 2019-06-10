@@ -31,3 +31,9 @@ export function loadDb() {
 
   return promise;
 }
+
+export const getCollection = name => {
+  if (collections.every(([n]) => name !== n))
+    throw new Error(`Collection ${name} doesn't exist...`);
+  return db.getCollection(name);
+};

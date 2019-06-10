@@ -26,7 +26,7 @@ export default {
     'path',
     'url',
     'module',
-    'os',
+    'crypto',
   ],
   plugins: [
     svelte({

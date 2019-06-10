@@ -1,4 +1,8 @@
 <script>
+  import Nav from "./elements/Nav.svelte";
+  import Route from "./router/Route.svelte";
+  import Dashboard from "./views/Dashboard.svelte";
+  import CreateAccount from "./views/CreateAccount.svelte";
   import { loadDb } from "./db/db";
 
   const dbPromise = loadDb();
@@ -13,17 +17,15 @@
 {#await dbPromise}
   <!-- Nothing for now -->
 {:then}
-  <div class="flex">
-    <nav class="flex-none p-4">
-      <h1>Accounts</h1>
-      <ul>
-        <li>
-          <em>No accounts</em>
-        </li>
-      </ul>
-    </nav>
+  <div class="flex min-h-screen">
+    <Nav />
     <main class="flex-auto p-4">
-      <h1>Dashboard</h1>
+      <Route path="/">
+        <Dashboard />
+      </Route>
+      <Route path="/accounts/create">
+        <CreateAccount />
+      </Route>
     </main>
   </div>
 {:catch}
