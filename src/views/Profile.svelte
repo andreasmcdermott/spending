@@ -2,4 +2,4 @@
   import Header from "../elements/Header.svelte";
 </script>
 
-<Header>Dashboard</Header>
+<Header>Profile</Header>

@@ -33,7 +33,7 @@ export default class Collection {
   }
 
   getOne(id) {
-    this.instance.find({ id });
+    return this.instance.findOne({ id });
   }
 
   insert(item) {

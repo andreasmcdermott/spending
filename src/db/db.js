@@ -5,7 +5,7 @@ import paths from '../utils/paths';
 let db = null;
 let promise = null;
 
-const collections = [['accounts', {}]];
+const collections = [['accounts', {}], ['categories', {}]];
 
 export function loadDb() {
   if (promise) return promise;

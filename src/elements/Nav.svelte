@@ -1,19 +1,44 @@
 <script>
   import Link from "../router/Link.svelte";
+  import Header from "../elements/Header.svelte";
   import { accounts } from "../accounts/store";
+  import { categories } from "../categories/store";
 </script>
 
-<nav class="flex-none p-4 flex flex-col">
-  <h1>Accounts</h1>
-  <ul>
+<nav
+  class="flex-none p-4 flex flex-col bg-blue-800 text-blue-100 max-h-screen
+  overflow-auto">
+  <script>
+</script>
+
+  <Header>
+    <span>Accounts</span>
+    <Link to="/accounts/create">
+      <span class="font-bold">+</span>
+    </Link>
+  </Header>
+
+  <ul class="text-lg">
     {#each $accounts as account}
-      <li>{account.name}</li>
+      <li class="my-1">
+        <Link to={`/accounts/${account.id}`}>{account.name}</Link>
+      </li>
     {:else}
       <li>
         <em>No accounts</em>
       </li>
     {/each}
   </ul>
-  <Link to="/accounts/create">Create Account</Link>
-  <h1 class="mt-auto">Categories</h1>
+
+  <div class="mt-auto pt-2 text-sm">
+    <span class="mr-1">
+      <Link to="/">Dashboard</Link>
+    </span>
+    <span class="mr-1">
+      <Link to="/categories">Categories</Link>
+    </span>
+    <span>
+      <Link to="/profile">Profile</Link>
+    </span>
+  </div>
 </nav>

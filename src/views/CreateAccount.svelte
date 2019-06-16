@@ -1,5 +1,7 @@
 <script>
   import Link from "../router/Link.svelte";
+  import Header from "../elements/Header.svelte";
+
   import { createAccount } from "../accounts/store";
 
   let name = "";
@@ -10,7 +12,7 @@
   };
 </script>
 
-<h1>Create Account</h1>
+<Header>Create Account</Header>
 <form on:submit|preventDefault={onCreateAccount}>
   <label for="account-name">Name</label>
   <input id="account-name" type="text" bind:value={name} />

@@ -1,31 +1,40 @@
 <script>
   import Nav from "./elements/Nav.svelte";
-  import Route from "./router/Route.svelte";
+  import Router from "./router/Router.svelte";
   import Dashboard from "./views/Dashboard.svelte";
   import CreateAccount from "./views/CreateAccount.svelte";
+  import Account from "./views/Account.svelte";
+  import Categories from "./views/Categories.svelte";
+  import Profile from "./views/Profile.svelte";
   import { loadDb } from "./db/db";
 
   const dbPromise = loadDb();
+  const routes = [
+    { path: "/", view: Dashboard },
+    { path: "/categories", view: Categories },
+    { path: "/profile", view: Profile },
+    { path: "/accounts/create", view: CreateAccount },
+    { path: "/accounts/:id", view: Account }
+  ];
 </script>
 
 <style lang="postcss">
   @import "tailwindcss/base";
   @import "tailwindcss/components";
   @import "tailwindcss/utilities";
+
+  :global(html) {
+    font-size: 12px;
+  }
 </style>
 
 {#await dbPromise}
   <!-- Nothing for now -->
 {:then}
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen max-h-screen">
     <Nav />
-    <main class="flex-auto p-4">
-      <Route path="/">
-        <Dashboard />
-      </Route>
-      <Route path="/accounts/create">
-        <CreateAccount />
-      </Route>
+    <main class="flex-auto p-4 text-lg overflow-auto">
+      <Router {routes} />
     </main>
   </div>
 {:catch}
