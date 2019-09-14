@@ -26,6 +26,10 @@ export const createCategory = category => {
   collection.insert({ ...category, filters: [], color: getRandomColor(), id });
 };
 
+export const updateCategory = category => {
+  collection.update(category);
+};
+
 export const removeCategory = id => {
   collection.remove(id);
 };

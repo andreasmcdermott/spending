@@ -45,6 +45,15 @@ export default class Collection {
     }
   }
 
+  update(item) {
+    try {
+      this.instance.update(item);
+      this.store.set(this.getAllSorted());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   remove(id) {
     try {
       const doc = this.getOne(id);

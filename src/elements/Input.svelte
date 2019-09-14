@@ -24,12 +24,14 @@
     {id}
     {name}
     {type}
-    {value} />
+    {value}
+    on:change />
 {:else}
   <input
     class={`${clazz} ${sizeClazz} ${widthClazz}`}
     {id}
     {name}
     type="text"
-    bind:value />
+    bind:value
+    on:change />
 {/if}
