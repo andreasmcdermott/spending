@@ -1,5 +1,6 @@
 import Collection from '../db/Collection';
 import { sortBy } from '../utils/fns';
+import { getRandomColor } from '../enums/colors';
 
 class CategoriesCollection extends Collection {
   constructor() {
@@ -18,5 +19,13 @@ export const categories = {
 };
 
 export const createCategory = category => {
-  collection.insert(category);
+  const id = category.name
+    .toLowerCase()
+    .replace(/[^a-z]+/, '')
+    .replace(/\s+/, '-');
+  collection.insert({ ...category, filters: [], color: getRandomColor(), id });
+};
+
+export const removeCategory = id => {
+  collection.remove(id);
 };

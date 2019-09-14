@@ -44,4 +44,14 @@ export default class Collection {
       console.error(err);
     }
   }
+
+  remove(id) {
+    try {
+      const doc = this.getOne(id);
+      this.instance.remove(doc);
+      this.store.set(this.getAllSorted());
+    } catch (err) {
+      console.error(err);
+    }
+  }
 }

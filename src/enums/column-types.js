@@ -4,7 +4,7 @@ const ColumnTypes = {
   Amount: '$',
   Description: '?',
   Ignored: 'i',
-  NotDefined: '-'
+  NotDefined: '-',
 };
 
 export const UUID = '$uuid$';
@@ -15,7 +15,7 @@ const guesses = {
   [ColumnTypes.Id]: /(\s|^)id(\s|$)/gi,
   [ColumnTypes.Date]: /(\s|^)date(\s|$)/gi,
   [ColumnTypes.Amount]: /amount/gi,
-  [ColumnTypes.Description]: /description/gi
+  [ColumnTypes.Description]: /description/gi,
 };
 
 export const guessType = name =>

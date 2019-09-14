@@ -6,7 +6,7 @@ export const getHeaders = file =>
       preview: 1,
       complete: results => {
         resolve(results.data[0]);
-      }
+      },
     });
   });
 
@@ -19,6 +19,6 @@ export const importRows = file =>
       dynamicTyping: true,
       complete: results => {
         resolve(results);
-      }
+      },
     });
   });

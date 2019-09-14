@@ -3,7 +3,7 @@ import { labelifyCamelCase } from '../utils/fns';
 const AccountTypes = {
   Checking: 'c',
   Saving: 's',
-  CreditCard: 'cc'
+  CreditCard: 'cc',
 };
 
 export default AccountTypes;

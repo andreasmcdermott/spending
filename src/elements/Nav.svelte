@@ -8,9 +8,6 @@
 <nav
   class="flex-none p-4 flex flex-col bg-blue-800 text-blue-100 max-h-screen
   overflow-auto">
-  <script>
-</script>
-
   <Header>
     <span>Accounts</span>
     <Link to="/accounts/create">

@@ -1,6 +1,6 @@
 <script>
-  import Input from './Input.svelte';
-  import Label from './Label.svelte';
+  import Input from "./Input.svelte";
+  import Label from "./Label.svelte";
 
   export let label;
   export let name;
@@ -11,8 +11,6 @@
 </script>
 
 {#if displayLabel}
-  <Label for={id}>
-    {label}
-  </Label>
+  <Label for={id}>{label}</Label>
 {/if}
 <Input {id} {name} {value} />

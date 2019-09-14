@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import Header from "./Header.svelte";
-  
+
   export let header = null;
 
   let form;
@@ -10,8 +10,8 @@
     const values = [...form.elements]
       .filter(el => Boolean(el.name))
       .reduce((acc, el) => {
-        if (el.type === 'radio' && !el.checked) return acc;
-        if (el.type === 'checkbox') {
+        if (el.type === "radio" && !el.checked) return acc;
+        if (el.type === "checkbox") {
           if (!acc[el.name]) {
             acc[el.name] = [];
           }
