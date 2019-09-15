@@ -11,8 +11,8 @@
   const onCreateAccount = ({ detail: { values, reset } }) => {
     if (!values.name || !values.type) return;
 
-    createAccount(values);
-    goto("/");
+    const id = createAccount(values);
+    goto(`/${id}`);
   };
 </script>
 

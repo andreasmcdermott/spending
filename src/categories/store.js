@@ -21,6 +21,7 @@ export const categories = {
 export const createCategory = category => {
   const id = createIdFromName(category.name);
   collection.insert({ ...category, filters: [], color: getRandomColor(), id });
+  return id;
 };
 
 export const updateCategory = category => {

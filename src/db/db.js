@@ -5,7 +5,10 @@ import paths from '../utils/paths';
 let db = null;
 let promise = null;
 
-const collections = [['accounts', {}], ['categories', {}]];
+const collections = [
+  ['accounts', { unique: ['id', 'name'], indices: ['id'] }],
+  ['categories', { unique: ['id', 'name'], indices: ['id'] }],
+];
 
 export function loadDb() {
   if (promise) return promise;

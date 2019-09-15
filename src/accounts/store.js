@@ -20,6 +20,7 @@ export const accounts = {
 export const createAccount = account => {
   const id = createIdFromName(account.name);
   collection.insert({ ...account, importFormat: { columns: [] }, id });
+  return id;
 };
 
 export const getAccountById = id => collection.getOne(id);
