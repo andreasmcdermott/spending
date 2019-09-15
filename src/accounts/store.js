@@ -1,5 +1,5 @@
 import Collection from '../db/Collection';
-import { sortBy } from '../utils/fns';
+import { sortBy, createIdFromName } from '../utils/fns';
 
 class AccountsCollection extends Collection {
   constructor() {
@@ -18,7 +18,10 @@ export const accounts = {
 };
 
 export const createAccount = account => {
-  collection.insert(account);
+  const id = createIdFromName(account.name);
+  collection.insert({ ...account, importFormat: { columns: [] }, id });
 };
 
 export const getAccountById = id => collection.getOne(id);
+
+export const removeAccount = id => collection.remove(id);

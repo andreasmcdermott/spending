@@ -3,6 +3,7 @@
   import Header from "../elements/Header.svelte";
   import { accounts } from "../accounts/store";
   import { categories } from "../categories/store";
+  console.log($accounts);
 </script>
 
 <nav

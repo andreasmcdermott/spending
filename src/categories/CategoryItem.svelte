@@ -4,7 +4,7 @@
   import FilterList from "./FilterList.svelte";
   import ColorPicker from "../elements/ColorPicker.svelte";
   import Button from "../elements/Button.svelte";
-  import { getNameByValue } from "../enums/category-types";
+  import { getNameByValue } from "../utils/enums";
 
   export let category;
 </script>
