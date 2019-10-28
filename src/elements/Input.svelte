@@ -1,8 +1,9 @@
 <script>
-  export let id;
-  export let name;
+  export let id = undefined;
+  export let name = undefined;
   export let type = null;
   export let value = "";
+  export let placeholder = "";
   export let size = "base";
   export let width = "base";
 
@@ -25,12 +26,14 @@
     {name}
     {type}
     {value}
+    {placeholder}
     on:change />
 {:else}
   <input
     class={`${clazz} ${sizeClazz} ${widthClazz}`}
     {id}
     {name}
+    {placeholder}
     type="text"
     bind:value
     on:change />

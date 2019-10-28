@@ -1,8 +1,11 @@
 <script>
   import store from "./store";
   export let to;
+  export let block;
 </script>
 
-<button on:click={() => ($store = to)}>
+<button
+  class={`text-left ${block ? 'block w-full' : 'inline-block'}`}
+  on:click={() => ($store = to)}>
   <slot />
 </button>

@@ -5,7 +5,7 @@ const isUpperCase = letter => /[A-Z]/.test(letter);
 export const labelifyCamelCase = str =>
   str
     .split('')
-    .reduce((acc, l) => acc + (isUpperCase(l) ? ' ' : '') + l)
+    .reduce((acc, l) => acc + (isUpperCase(l) ? ' ' : '') + l, '')
     .trim();
 
 export const createIdFromName = name =>

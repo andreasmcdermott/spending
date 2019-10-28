@@ -1,9 +1,9 @@
 <script>
   import Link from "../router/Link.svelte";
+  import Icon from "../elements/Icon.svelte";
   import Header from "../elements/Header.svelte";
   import { accounts } from "../accounts/store";
   import { categories } from "../categories/store";
-  console.log($accounts);
 </script>
 
 <nav
@@ -12,14 +12,16 @@
   <Header>
     <span>Accounts</span>
     <Link to="/accounts/create">
-      <span class="font-bold">+</span>
+      <span class="font-bold">
+        <Icon name="plus" label="Add" color="#fff" />
+      </span>
     </Link>
   </Header>
 
   <ul class="text-lg">
     {#each $accounts as account}
       <li class="my-1">
-        <Link to={`/accounts/${account.id}`}>{account.name}</Link>
+        <Link block={true} to={`/accounts/${account.id}`}>{account.name}</Link>
       </li>
     {:else}
       <li>

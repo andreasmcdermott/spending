@@ -5,7 +5,7 @@
 
 <ul>
   {#each $categories as category (category.id)}
-    <li class="px-4 py-2">
+    <li class="py-2">
       <CategoryItem {category} />
     </li>
   {/each}

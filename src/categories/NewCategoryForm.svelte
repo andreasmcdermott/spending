@@ -13,17 +13,15 @@
 </script>
 
 <Form on:submit={onNewCategory}>
-  <div class="flex items-end">
+  <div class="flex flex-col">
     <div>
       <Field label="New category" name="name" />
     </div>
-    <div class="flex flex-auto justify-between">
-      <span class="flex items-center ml-8">
-        <CategoryTypePicker name="type" />
-      </span>
-      <span class="ml-auto">
-        <Button type="submit">Create</Button>
-      </span>
+    <div class="mt-4">
+      <CategoryTypePicker name="type" />
+    </div>
+    <div class="mt-4">
+      <Button type="submit">Create Category</Button>
     </div>
   </div>
 </Form>

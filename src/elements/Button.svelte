@@ -2,8 +2,10 @@
   export let type = "button";
   export let size = "base";
 
-  const primaryColors = "bg-blue-300 text-blue-800 border-blue-700";
-  const secondaryColors = "bg-gray-400 text-gray-800 border-gray-600";
+  const primaryColors =
+    "bg-blue-300 hover:bg-blue-200 text-blue-800 border-blue-700 hover:border-blue-600";
+  const secondaryColors =
+    "bg-gray-400 hover:bg-gray-300 text-gray-800 border-gray-600 hover:border-gray-500";
   const sizeClasses =
     size === "sm"
       ? "text-sm px-2 py-1 border-b"
