@@ -6,10 +6,14 @@
 
   let form;
   const dispatch = createEventDispatcher();
-  const dispatchSubmit = () => {
+  const dispatchSubmit = event => {
     const values = [...form.elements]
       .filter(el => Boolean(el.name))
       .reduce((acc, el) => {
+        if (el.type === "file") {
+          acc[el.name] = el.files;
+          return acc;
+        }
         if (el.type === "radio" && !el.checked) return acc;
         if (el.type === "checkbox") {
           if (!acc[el.name]) {
@@ -23,7 +27,7 @@
         acc[el.name] = el.value;
         return acc;
       }, {});
-    dispatch("submit", { values, reset: () => form.reset() });
+    dispatch("submit", { values, reset: () => form.reset(), event });
   };
 </script>
 

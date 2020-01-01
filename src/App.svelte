@@ -4,6 +4,8 @@
   import Dashboard from "./views/Dashboard.svelte";
   import CreateAccount from "./views/CreateAccount.svelte";
   import Account from "./views/Account.svelte";
+  import ImportFormat from "./views/ImportFormat.svelte";
+  import Import from "./views/Import.svelte";
   import Categories from "./views/Categories.svelte";
   import Profile from "./views/Profile.svelte";
   import { loadDb } from "./db/db";
@@ -14,7 +16,9 @@
     { path: "/categories", view: Categories },
     { path: "/profile", view: Profile },
     { path: "/accounts/create", view: CreateAccount },
-    { path: "/accounts/:id", view: Account }
+    { path: "/accounts/:id", view: Account },
+    { path: "/accounts/:id/format", view: ImportFormat },
+    { path: "/accounts/:id/import", view: Import }
   ];
 </script>
 

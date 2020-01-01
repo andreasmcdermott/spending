@@ -25,5 +25,15 @@
   <span class="uppercase tracking-widest text-xs">
     {getNameByValue(AccountTypes, account.type)}
   </span>
-  <Button size="sm" on:click={handleRemove}>Remove</Button>
+  <div>
+    <Button size="sm" on:click={() => goto(`/accounts/${id}/format`)}>
+      Define Format
+    </Button>
+    <Button size="sm" on:click={() => goto(`/accounts/${id}/import`)}>
+      Import
+    </Button>
+    <Button size="sm" on:click={handleRemove}>Remove</Button>
+  </div>
 </div>
+
+<div />
