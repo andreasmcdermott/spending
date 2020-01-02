@@ -38,11 +38,14 @@ export default class Collection {
 
   insert(item) {
     try {
-      this.instance.insert({ ...item, id: uuid() });
+      const id = uuid();
+      this.instance.insert({ ...item, id });
       this.store.set(this.getAllSorted());
+      return id;
     } catch (err) {
       console.error(err);
     }
+    return null;
   }
 
   update(item) {

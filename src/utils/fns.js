@@ -8,7 +8,7 @@ export const labelifyCamelCase = str =>
     .reduce((acc, l) => acc + (isUpperCase(l) ? ' ' : '') + l, '')
     .trim();
 
-export const createIdFromName = name =>
+export const createSlugFromName = name =>
   name
     .toLowerCase()
     .trim()

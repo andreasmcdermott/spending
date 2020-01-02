@@ -1,8 +1,7 @@
 <script>
-  import { getAccountById } from '../accounts/store';
+  import { getAccountById, updateImportFormat } from '../accounts/store';
   import Header from '../elements/Header.svelte';
-  import Link from '../router/Link.svelte';
-  import Icon from '../elements/Icon.svelte';
+  import Breadcrumbs from '../elements/Breadcrumbs.svelte';
   import Form from '../elements/Form.svelte';
   import Button from '../elements/Button.svelte';
   import ColumnTypePicker from '../elements/ColumnTypePicker.svelte';
@@ -10,38 +9,46 @@
   import { getHeaders } from '../utils/csv';
   import { getNameByValue } from '../utils/enums';
   import ColumnTypes, { guessType } from '../enums/column-types';
+  import { goto } from '../router/fns';
 
   export let id;
 
-  $: account = getAccountById(id) || {};
+  $: account = getAccountById(id);
 
   let columns = [];
   let loadedFile = null;
+
+  const save = () => {
+    try {
+      updateImportFormat(id, { columns });
+      goto(`..`);
+    } catch (ex) {
+      console.error(ex);
+    }
+  };
 </script>
 
 <Header>
-  <div class="flex items-center">
-    <Link styles="uppercase tracking-widest" to={`/accounts/${id}`}>{account.name}</Link>
-    <span class="mx-4">
-      <Icon name="chevron-right" />
-    </span>
-    <span>Define Import Format</span>
-  </div>
+  <Breadcrumbs items={[{ to: '..', name: account.name }, { name: 'Define Import Format' }]} />
 </Header>
 
-<Form header="Select File">
-  <div class="flex justify-between">
-    <Input
-      type="file"
-      name="file"
-      on:change|preventDefault={e => {
-        loadedFile = e.target.files[0];
-        getHeaders(loadedFile).then(cols => {
-          columns = cols.map(c => ({ name: c, type: guessType(c) }));
-        });
-      }} />
-  </div>
-</Form>
+{#if account}
+  <Form header="Select File">
+    <div class="flex justify-between">
+      <Input
+        type="file"
+        name="file"
+        on:change|preventDefault={e => {
+          loadedFile = e.target.files[0];
+          getHeaders(loadedFile).then(cols => {
+            columns = cols.map(c => ({ name: c, type: guessType(c) }));
+          });
+        }} />
+    </div>
+  </Form>
+{:else}
+  <em>Account with ID "{id}" doesn't exist...</em>
+{/if}
 
 {#if loadedFile && columns && columns.length}
   <div class="flex flex-col mt-4">
@@ -59,7 +66,7 @@
     {/each}
 
     <div class="flex mt-4">
-      <Button type="submit">Save Format</Button>
+      <Button type="submit" on:click={save}>Save Format</Button>
       <div class="ml-2">
         <Button
           on:click={() => {

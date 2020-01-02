@@ -1,18 +1,18 @@
 <script>
-  import Link from "../router/Link.svelte";
-  import Button from "../elements/Button.svelte";
-  import Form from "../elements/Form.svelte";
-  import Field from "../elements/Field.svelte";
-  import AccountTypePicker from "./AccountTypePicker.svelte";
-  import { goto } from "../router/fns";
+  import Link from '../router/Link.svelte';
+  import Button from '../elements/Button.svelte';
+  import Form from '../elements/Form.svelte';
+  import Field from '../elements/Field.svelte';
+  import AccountTypePicker from './AccountTypePicker.svelte';
+  import { goto } from '../router/fns';
 
-  import { createAccount } from "../accounts/store";
+  import { createAccount } from '../accounts/store';
 
   const onCreateAccount = ({ detail: { values, reset } }) => {
     if (!values.name || !values.type) return;
 
     const id = createAccount(values);
-    goto(`/${id}`);
+    goto(`/accounts/${id}`);
   };
 </script>
 

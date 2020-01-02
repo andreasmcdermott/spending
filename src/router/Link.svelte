@@ -1,12 +1,12 @@
 <script>
-  import store from "./store";
+  import { goto } from './fns';
   export let to;
   export let block = false;
-  export let styles = "";
+  export let styles = '';
 </script>
 
 <button
   class={`text-left ${block ? 'block w-full' : 'inline-block'} ${styles}`}
-  on:click={() => ($store = to)}>
+  on:click={() => goto(to)}>
   <slot />
 </button>
