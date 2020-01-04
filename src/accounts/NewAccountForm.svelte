@@ -16,21 +16,23 @@
   };
 </script>
 
-<Form on:submit={onCreateAccount}>
-  <div class="flex items-end">
-    <div>
-      <Field label="Name" name="name" />
-    </div>
-    <div class="flex flex-auto justify-between">
-      <span class="flex items-center ml-8">
-        <AccountTypePicker name="type" />
-      </span>
-      <span class="ml-auto">
-        <Button type="submit">Create</Button>
-        <span class="ml-2">
-          <Link to="/">Cancel</Link>
+<div>
+  <Form on:submit={onCreateAccount}>
+    <div class="flex items-end">
+      <div>
+        <Field label="Name" name="name" />
+      </div>
+      <div class="flex flex-auto justify-between">
+        <span class="flex items-center ml-8">
+          <AccountTypePicker name="type" />
         </span>
-      </span>
+        <span class="ml-auto">
+          <Button type="submit">Create</Button>
+          <span class="ml-2">
+            <Link to="/">Cancel</Link>
+          </span>
+        </span>
+      </div>
     </div>
-  </div>
-</Form>
+  </Form>
+</div>

@@ -31,9 +31,10 @@
     {getNameByValue(AccountTypes, account.type)}
   </span>
   <div>
-    {#if !account.importFormat || !account.importFormat.columns}
+    {#if !account.importFormat.columns.length}
       <Button size="sm" on:click={() => goto(`/accounts/${id}/format`)}>Define Format</Button>
     {:else}
+      <Button size="sm" on:click={() => goto(`/accounts/${id}/update`)}>Update</Button>
       <Button size="sm" on:click={() => goto(`/accounts/${id}/import`)}>Import</Button>
     {/if}
     <Button size="sm" on:click={handleRemove}>Remove</Button>
