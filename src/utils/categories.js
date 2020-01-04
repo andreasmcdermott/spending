@@ -1,5 +1,6 @@
 import { get } from 'svelte/store';
 import { categories } from '../categories/store';
+
 const hasFilter = filter => !!filter.description || !!filter.amount;
 
 const compareDescription = (filter, description) => {

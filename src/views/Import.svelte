@@ -5,14 +5,18 @@
   import Breadcrumbs from '../elements/Breadcrumbs.svelte';
   import Form from '../elements/Form.svelte';
   import Input from '../elements/Input.svelte';
+  import Select from '../elements/Select.svelte';
   import Button from '../elements/Button.svelte';
   import CategoryPicker from '../categories/CategoryPicker.svelte';
+  import NewCategoryForm from '../categories/NewCategoryForm.svelte';
+  import NewFilterForm from '../categories/NewFilterForm.svelte';
   import { importRows } from '../utils/csv';
   import { mapToImportFormat } from '../utils/importFormat';
   import uuid from '../utils/uuid';
   import { categories } from '../categories/store';
   import { importTransactions } from '../transactions/store';
   import { goto } from '../router/fns';
+  import { sortBy } from '../utils/fns';
 
   export let id;
 
@@ -20,7 +24,7 @@
 
   let rows = [];
   let manuallyMappedRows = {};
-  let loadedFile = null;
+  let fileLoaded = false;
 
   const setRows = result => {
     rows = result.data.map(r => {
@@ -42,13 +46,20 @@
 
   const filterOptions = { All: 'all', Mapped: 'mapped', Unmapped: 'unmapped' };
   let filter = filterOptions.All;
+  let manualFilter = '';
+  let sortField = 'date';
 
   $: mappedRows = mapRows(rows, manuallyMappedRows);
   $: filteredRows = mappedRows.filter(r => {
-    if (filter === filterOptions.Mapped) return !!r.category;
-    if (filter === filterOptions.Unmapped) return !r.category;
-    return true;
+    let show = true;
+    if (filter === filterOptions.Mapped) show = show && !!r.category;
+    if (filter === filterOptions.Unmapped) show = show && !r.category;
+    if (manualFilter) show = show && new RegExp(manualFilter, 'gi').test(r.description);
+    return show;
   });
+  $: {
+    filteredRows.sort(sortBy(sortField));
+  }
   $: mappedRowCount = mappedRows.filter(r => !!r.category).length;
   $: unmappedRowCount = mappedRows.filter(r => !r.category).length;
 </script>
@@ -58,25 +69,48 @@
 </Header>
 
 {#if account}
-  <Form header="Select File">
-    <div class="flex justify-between">
-      <Input
-        type="file"
-        name="file"
-        on:change|preventDefault={e => {
-          loadedFile = e.target.files[0];
-          importRows(loadedFile).then(setRows);
-        }} />
+  {#if !fileLoaded}
+    <Form header="Select File">
+      <div class="flex justify-between">
+        <Input
+          type="file"
+          name="file"
+          on:change|preventDefault={e => {
+            fileLoaded = true;
+            importRows(e.target.files[0]).then(setRows);
+          }} />
+      </div>
+    </Form>
+  {:else}
+    <div class="flex">
+      <div class="w-1/2 mr-2">
+        <NewCategoryForm />
+      </div>
+      <div class="w-1/2 ml-2">
+        <NewFilterForm
+          on:created={() => {
+            mappedRows = { ...mappedRows };
+          }} />
+      </div>
     </div>
-  </Form>
+  {/if}
 {:else}
   <em>Account with ID "{id}" doesn't exist...</em>
 {/if}
 
-{#if loadedFile && rows && rows.length}
+{#if fileLoaded && rows && rows.length}
   <div class="flex justify-between border p-2 items-center mt-4">
     <div>
       <RadioPicker name="filter" types={filterOptions} bind:selected={filter} />
+    </div>
+    <div>
+      <Input placeholder="Filter" bind:value={manualFilter} />
+      <Select bind:value={sortField}>
+        <option value="date">Date</option>
+        <option value="desc">Description</option>
+        <option value="amount">Amount</option>
+        <option value="category">Category</option>
+      </Select>
     </div>
     <div>
       <strong class="mr-2">Mapped</strong>

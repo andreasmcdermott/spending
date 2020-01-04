@@ -1,4 +1,19 @@
-export const sortBy = prop => (obj1, obj2) => obj1[prop].localeCompare(obj2[prop]);
+export const sortBy = prop => (obj1, obj2) => {
+  let p1 = obj1[prop];
+  let p2 = obj2[prop];
+
+  if (p1 instanceof Date) p1 = p1.getTime();
+  if (p2 instanceof Date) p2 = p2.getTime();
+
+  if (typeof p1 === 'number' && typeof p2 === 'number') {
+    return p1 - p2;
+  }
+
+  if (typeof p1 !== 'string') p1 = String(p1);
+  if (typeof p2 !== 'string') p2 = String(p2);
+
+  return p1.localeCompare(p2);
+};
 
 const isUpperCase = letter => /[A-Z]/.test(letter);
 

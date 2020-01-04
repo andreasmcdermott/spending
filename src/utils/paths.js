@@ -5,5 +5,5 @@ export default {
   userData(...paths) {
     const userDataPath = remote.app.getPath('userData');
     return path.resolve(userDataPath, ...paths);
-  },
+  }
 };
