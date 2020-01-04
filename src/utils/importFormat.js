@@ -10,7 +10,7 @@ export const mapToImportFormat = ({ columns }) => {
   return row => {
     const dateValue = new Date(row[date]);
     const descValue = row[desc];
-    const periodValue = dateValue.getFullYear() * 100 + dateValue.getMonth();
+    const periodValue = dateValue.getFullYear() * 100 + (dateValue.getMonth() + 1);
     const amountValue = row[amount];
     let idValue;
     if (id === '$uuid$') {

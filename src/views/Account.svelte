@@ -1,5 +1,6 @@
 <script>
   import { getAccountById, removeAccount } from '../accounts/store';
+  import { getTransactionForAccount } from '../transactions/store';
   import Header from '../elements/Header.svelte';
   import Button from '../elements/Button.svelte';
   import { getNameByValue } from '../utils/enums';
@@ -10,9 +11,11 @@
   export let id;
 
   $: account = getAccountById(id);
+  $: transactions = getTransactionForAccount(id);
 
   $: {
     console.log(account);
+    console.log($transactions);
   }
 
   const handleRemove = () => {

@@ -1,14 +1,18 @@
 <script>
-  import Form from "../elements/Form.svelte";
-  import Field from "../elements/Field.svelte";
-  import Button from "../elements/Button.svelte";
-  import CategoryTypePicker from "./CategoryTypePicker.svelte";
-  import { createCategory } from "./store";
+  import { createEventDispatcher } from 'svelte';
+  import Form from '../elements/Form.svelte';
+  import Field from '../elements/Field.svelte';
+  import Button from '../elements/Button.svelte';
+  import CategoryTypePicker from './CategoryTypePicker.svelte';
+  import { createCategory } from './store';
+
+  const dispatch = createEventDispatcher();
 
   function onNewCategory({ detail: { values, reset } }) {
     if (!values.name || !values.type) return;
-    createCategory(values);
+    const id = createCategory(values);
     reset();
+    dispatch('created', { id });
   }
 </script>
 

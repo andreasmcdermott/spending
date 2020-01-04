@@ -8,6 +8,7 @@ let promise = null;
 const collections = [
   ['accounts', { unique: ['id', 'name'], indices: ['id'] }],
   ['categories', { unique: ['id', 'name'], indices: ['id'] }],
+  ['transactions', { unique: ['id'], indices: ['period', 'accountId'] }]
 ];
 
 export function loadDb() {
@@ -28,7 +29,7 @@ export function loadDb() {
           }
         });
         resolve();
-      },
+      }
     });
   });
 

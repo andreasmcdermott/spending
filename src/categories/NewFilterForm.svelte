@@ -1,10 +1,13 @@
 <script>
-  import { categories, updateCategory } from "../categories/store";
-  import Form from "../elements/Form.svelte";
-  import Field from "../elements/Field.svelte";
-  import Label from "../elements/Label.svelte";
-  import Select from "../elements/Select.svelte";
-  import Button from "../elements/Button.svelte";
+  import { createEventDispatcher } from 'svelte';
+  import { categories, updateCategory } from './store';
+  import Form from '../elements/Form.svelte';
+  import Field from '../elements/Field.svelte';
+  import Label from '../elements/Label.svelte';
+  import Select from '../elements/Select.svelte';
+  import Button from '../elements/Button.svelte';
+
+  const dispatch = createEventDispatcher();
 
   function onNewFilter({ detail: { values, reset } }) {
     if (!values.description || !values.category) return;
@@ -13,6 +16,7 @@
     category.filters.push({ description: values.description });
     updateCategory(category);
     reset();
+    dispatch('created', { categoryId: category.id });
   }
 </script>
 
@@ -23,11 +27,7 @@
     </div>
     <div class="mt-4">
       <Label for="new-filter-category">for Category</Label>
-      <Select
-        id="new-filter-category"
-        name="category"
-        class="outline-none border-gray-400 focus:border-blue-500 text-base p-2
-        border-b-2">
+      <Select id="new-filter-category" name="category">
         {#each $categories as category}
           <option value={category.id}>{category.name}</option>
         {/each}
