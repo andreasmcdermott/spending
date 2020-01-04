@@ -33,19 +33,21 @@
 </Header>
 
 {#if account}
-  <Form header="Select File">
-    <div class="flex justify-between">
-      <Input
-        type="file"
-        name="file"
-        on:change|preventDefault={e => {
-          loadedFile = e.target.files[0];
-          getHeaders(loadedFile).then(cols => {
-            columns = cols.map(c => ({ name: c, type: guessType(c) }));
-          });
-        }} />
-    </div>
-  </Form>
+  <div>
+    <Form header="Select File">
+      <div class="flex justify-between">
+        <Input
+          type="file"
+          name="file"
+          on:change|preventDefault={e => {
+            loadedFile = e.target.files[0];
+            getHeaders(loadedFile).then(cols => {
+              columns = cols.map(c => ({ name: c, type: guessType(c) }));
+            });
+          }} />
+      </div>
+    </Form>
+  </div>
 {:else}
   <em>Account with ID "{id}" doesn't exist...</em>
 {/if}

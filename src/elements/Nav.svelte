@@ -1,14 +1,12 @@
 <script>
-  import Link from "../router/Link.svelte";
-  import Icon from "../elements/Icon.svelte";
-  import Header from "../elements/Header.svelte";
-  import { accounts } from "../accounts/store";
-  import { categories } from "../categories/store";
+  import Link from '../router/Link.svelte';
+  import Icon from '../elements/Icon.svelte';
+  import Header from '../elements/Header.svelte';
+  import { accounts } from '../accounts/store';
+  import { categories } from '../categories/store';
 </script>
 
-<nav
-  class="flex-none p-4 flex flex-col bg-blue-800 text-blue-100 max-h-screen
-  overflow-auto">
+<nav class="flex-none p-4 flex flex-col bg-blue-800 text-blue-100 max-h-screen overflow-auto">
   <Header>
     <span>Accounts</span>
     <Link to="/accounts/create">
@@ -40,5 +38,8 @@
     <span>
       <Link to="/profile">Profile</Link>
     </span>
+    <div class="mt-2 text-sm">
+      <Link to="/admin">Admin</Link>
+    </div>
   </div>
 </nav>

@@ -42,6 +42,10 @@ class TransactionsCollection extends Collection {
 
 const collection = new TransactionsCollection();
 
+export const getAllTransactions = () => {
+  return collection.getAll();
+};
+
 export const getAllPeriodsForAccount = accountId => {
   return collection.getAllPeriodsForAccount(accountId);
 };
@@ -69,4 +73,6 @@ export const importTransactions = (accountId, transactions) => {
   );
 };
 
-export const updateTransactions = (accountId, transactions) => {};
+export const updateTransactions = transactions => {
+  collection.updateMany(transactions);
+};

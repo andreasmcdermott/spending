@@ -69,7 +69,12 @@
       <Button
         type="submit"
         on:click|preventDefault={() => {
-          updateTransactions(id, rowsWithChanges);
+          updateTransactions($rows
+              .filter(r => overrides[r.id])
+              .map(r => {
+                r.category = overrides[r.id];
+                return r;
+              }));
           period = '';
         }}>
         Save

@@ -7,8 +7,12 @@
   import AccountTypes from '../enums/account-types';
   import Link from '../router/Link.svelte';
   import { goto } from '../router/fns';
+  import { hasCachedData, clearCachedData } from '../utils/cachedStore';
 
   export let id;
+
+  const storeIds = [`current-rows-${id}`, `current-manual-mapping-${id}`];
+  let importInProgress = storeIds.some(id => hasCachedData(id));
 
   $: account = getAccountById(id);
   $: transactions = getTransactionForAccount(id);
@@ -32,13 +36,32 @@
   </span>
   <div>
     {#if !account.importFormat.columns.length}
-      <Button size="sm" on:click={() => goto(`/accounts/${id}/format`)}>Define Format</Button>
+      <Button size="sm" on:click={() => goto('format')}>Define Format</Button>
     {:else}
-      <Button size="sm" on:click={() => goto(`/accounts/${id}/update`)}>Update</Button>
-      <Button size="sm" on:click={() => goto(`/accounts/${id}/import`)}>Import</Button>
+      <Button size="sm" on:click={() => goto('update')}>Update</Button>
+      <Button size="sm" on:click={() => goto('import')}>Import</Button>
     {/if}
     <Button size="sm" on:click={handleRemove}>Remove</Button>
   </div>
 </div>
 
-<div />
+<div>
+
+  {#if importInProgress}
+    <div class="flex items-center justify-center mt-4">
+      <div class="p-4 border flex flex-col justify-center">
+        <p>You have an import in progress.</p>
+        <div class="mt-4 text-center">
+          <Button type="submit" on:click={() => goto('import')}>Continue</Button>
+          <Button
+            on:click={() => {
+              storeIds.forEach(clearCachedData);
+              importInProgress = false;
+            }}>
+            Clear
+          </Button>
+        </div>
+      </div>
+    </div>
+  {/if}
+</div>

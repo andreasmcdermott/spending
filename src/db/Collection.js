@@ -87,6 +87,15 @@ export default class Collection {
     }
   }
 
+  updateMany(items) {
+    try {
+      items.forEach(item => this.instance.update(item));
+      this._updateStore();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   remove(id) {
     try {
       const doc = this.getOne(id);

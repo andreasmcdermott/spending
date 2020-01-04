@@ -16,14 +16,14 @@
   import { categories } from '../categories/store';
   import { importTransactions } from '../transactions/store';
   import { goto } from '../router/fns';
-  import { createCachedStore, clearCachedStore } from '../utils/cachedStore';
+  import { createCachedStore } from '../utils/cachedStore';
 
   export let id;
 
   $: account = getAccountById(id);
 
-  const rows = createCachedStore('current-rows', []);
-  const manuallyMappedRows = createCachedStore('current-manual-mapping', {});
+  const rows = createCachedStore(`current-rows-${id}`, []);
+  const manuallyMappedRows = createCachedStore(`current-manual-mapping-${id}`, {});
   let fileLoaded = $rows.length > 0;
 
   const setRows = result => {
@@ -87,7 +87,7 @@
   <TransactionsTable
     bind:rows={mappedRows}
     on:change={e => {
-      manuallyMappedRows = { ...manuallyMappedRows, [e.detail.rowId]: e.detail.categoryId };
+      $manuallyMappedRows = { ...$manuallyMappedRows, [e.detail.rowId]: e.detail.categoryId };
     }} />
 
   <div class="mt-4">
@@ -96,7 +96,8 @@
       on:click|preventDefault={() => {
         if (mappedRows.length > 0 && mappedRows.every(r => r.category)) {
           importTransactions(id, mappedRows);
-          clearCachedStore('current-import');
+          rows.clear();
+          manuallyMappedRows.clear();
           goto('..');
         }
       }}>
@@ -106,8 +107,8 @@
       <Link
         to=".."
         on:click={() => {
-          clearCachedStore('current-rows');
-          clearCachedStore('current-manual-mapping');
+          rows.clear();
+          manuallyMappedRows.clear();
         }}>
         Cancel
       </Link>

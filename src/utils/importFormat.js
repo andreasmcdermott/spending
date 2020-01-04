@@ -1,6 +1,8 @@
 import ColumnTypes from '../enums/column-types';
 import { mapCategory } from '../utils/categories';
 
+const cleanDescription = desc => desc.replace(/\s{2,}/g, ' ');
+
 export const mapToImportFormat = ({ columns }) => {
   const id = columns.find(c => c.type === ColumnTypes.Id).name;
   const date = columns.find(c => c.type === ColumnTypes.Date).name;
@@ -23,7 +25,7 @@ export const mapToImportFormat = ({ columns }) => {
       id: idValue,
       date: dateValue,
       period: periodValue,
-      description: descValue,
+      description: cleanDescription(descValue),
       amount: amountValue,
       category: getCategory({ description: descValue, amount: row[amount] })
     };

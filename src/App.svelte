@@ -9,6 +9,7 @@
   import Update from './views/Update.svelte';
   import Categories from './views/Categories.svelte';
   import Profile from './views/Profile.svelte';
+  import Admin from './views/Admin.svelte';
   import { loadDb } from './db/db';
 
   const dbPromise = loadDb();
@@ -16,6 +17,7 @@
     { path: '/', view: Dashboard },
     { path: '/categories', view: Categories },
     { path: '/profile', view: Profile },
+    { path: '/admin', view: Admin },
     { path: '/accounts/create', view: CreateAccount },
     { path: '/accounts/:id', view: Account },
     { path: '/accounts/:id/format', view: ImportFormat },
