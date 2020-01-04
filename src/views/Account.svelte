@@ -8,6 +8,7 @@
   import Link from '../router/Link.svelte';
   import { goto } from '../router/fns';
   import { hasCachedData, clearCachedData } from '../utils/cachedStore';
+  import AccountChart from '../accounts/AccountChart.svelte';
 
   export let id;
 
@@ -45,23 +46,24 @@
   </div>
 </div>
 
-<div>
-
-  {#if importInProgress}
-    <div class="flex items-center justify-center mt-4">
-      <div class="p-4 border flex flex-col justify-center">
-        <p>You have an import in progress.</p>
-        <div class="mt-4 text-center">
-          <Button type="submit" on:click={() => goto('import')}>Continue</Button>
-          <Button
-            on:click={() => {
-              storeIds.forEach(clearCachedData);
-              importInProgress = false;
-            }}>
-            Clear
-          </Button>
-        </div>
+{#if importInProgress}
+  <div class="flex items-center justify-center mt-4">
+    <div class="p-4 border flex flex-col justify-center">
+      <p>You have an import in progress.</p>
+      <div class="mt-4 text-center">
+        <Button type="submit" on:click={() => goto('import')}>Continue</Button>
+        <Button
+          on:click={() => {
+            storeIds.forEach(clearCachedData);
+            importInProgress = false;
+          }}>
+          Clear
+        </Button>
       </div>
     </div>
-  {/if}
+  </div>
+{/if}
+
+<div class="mt-4 p-4 border">
+  <AccountChart {id} />
 </div>

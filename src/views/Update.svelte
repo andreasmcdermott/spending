@@ -7,21 +7,16 @@
   import Input from '../elements/Input.svelte';
   import Button from '../elements/Button.svelte';
   import Select from '../elements/Select.svelte';
-
+  import PeriodPicker from '../accounts/PeriodPicker.svelte';
   import NewCategoryForm from '../categories/NewCategoryForm.svelte';
   import NewFilterForm from '../categories/NewFilterForm.svelte';
   import TransactionsTable from '../transactions/TransactionsTable.svelte';
-  import {
-    updateTransactions,
-    getAllPeriodsForAccount,
-    getTransactionForAccountAndPeriod
-  } from '../transactions/store';
+  import { updateTransactions, getTransactionForAccountAndPeriod } from '../transactions/store';
   import { goto } from '../router/fns';
 
   export let id;
 
   $: account = getAccountById(id);
-  $: periods = getAllPeriodsForAccount(id);
 
   let period = null;
   let overrides = {};
@@ -40,12 +35,7 @@
 
 {#if account}
   <div class="border border-gray-200 p-2">
-    <Select bind:value={period}>
-      <option value="">Select period</option>
-      {#each periods as period}
-        <option value={period}>{period}</option>
-      {/each}
-    </Select>
+    <PeriodPicker {id} bind:value={period} />
   </div>
   {#if rowsWithChanges.length}
     <div class="flex">
