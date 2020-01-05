@@ -1,6 +1,17 @@
 import { get } from 'svelte/store';
 import { categories } from '../categories/store';
 
+let categoriesMap = null;
+const getCategoriesMap = () => {
+  if (!categoriesMap) {
+    categoriesMap = get(categories).reduce((acc, c) => {
+      acc[c.id] = c;
+      return acc;
+    }, {});
+  }
+  return categoriesMap;
+};
+
 const hasFilter = filter => !!filter.description || !!filter.amount;
 
 const compareDescription = (filter, description) => {
@@ -17,7 +28,7 @@ const compareAmount = (filter, amount) => {
 };
 
 export const mapCategory = () => {
-  const categoryValues = get(categories);
+  const categoryValues = Object.values(getCategoriesMap());
   return ({ description, amount }) => {
     const category = categoryValues.find(c =>
       c.filters.some(filter => {
@@ -28,3 +39,6 @@ export const mapCategory = () => {
     return category ? category.id : null;
   };
 };
+
+export const getCategoryName = id => getCategoriesMap()[id].name;
+export const getCategoryColor = id => getCategoriesMap()[id].color;

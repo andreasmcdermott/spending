@@ -4,20 +4,16 @@
 
   export let title;
   export let data;
-  export let label;
 
   $: labels = data ? data.map(d => d.label) : [];
   $: datasets = data
     ? [
         {
-          label,
           data: data.map(d => d.value),
-          backgroundColor: (data[0] || {}).color,
-          borderColor: (data[0] || {}).color,
-          fill: false
+          backgroundColor: data.map(d => d.color)
         }
       ]
     : [];
 </script>
 
-<Chart type="line" bind:labels bind:datasets options={buildOptions({ title })} />
+<Chart type="doughnut" bind:labels bind:datasets options={buildOptions({ title, legend: false })} />

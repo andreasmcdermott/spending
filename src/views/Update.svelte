@@ -18,15 +18,19 @@
 
   $: account = getAccountById(id);
 
-  let period = null;
+  let period = '';
   let overrides = {};
-  $: rows = getTransactionForAccountAndPeriod(id, period);
-  $: rowsWithChanges = $rows.map(r => {
-    if (overrides[r.id]) {
-      r.category = overrides[r.id];
-    }
-    return r;
-  });
+  let rowsWithChanges = [];
+  const rows = getTransactionForAccountAndPeriod(id, period);
+  $: {
+    rows.setPeriod(period);
+    rowsWithChanges = $rows.map(r => {
+      if (overrides[r.id]) {
+        r.category = overrides[r.id];
+      }
+      return r;
+    });
+  }
 </script>
 
 <Header>
