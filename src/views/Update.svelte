@@ -11,7 +11,7 @@
   import NewCategoryForm from '../categories/NewCategoryForm.svelte';
   import NewFilterForm from '../categories/NewFilterForm.svelte';
   import TransactionsTable from '../transactions/TransactionsTable.svelte';
-  import { updateTransactions, getTransactionForAccountAndPeriod } from '../transactions/store';
+  import { updateTransactions, getTransactionsForAccountAndPeriod } from '../transactions/store';
   import { goto } from '../router/fns';
 
   export let id;
@@ -21,7 +21,7 @@
   let period = '';
   let overrides = {};
   let rowsWithChanges = [];
-  const rows = getTransactionForAccountAndPeriod(id, period);
+  const rows = getTransactionsForAccountAndPeriod(id, period);
   $: {
     rows.setPeriod(period);
     rowsWithChanges = $rows.map(r => {

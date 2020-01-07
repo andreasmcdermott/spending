@@ -1,6 +1,6 @@
 <script>
   import { getAccountById, removeAccount } from '../accounts/store';
-  import { getTransactionForAccount } from '../transactions/store';
+  import { getTransactionsForAccount } from '../transactions/store';
   import Header from '../elements/Header.svelte';
   import Button from '../elements/Button.svelte';
   import { getNameByValue } from '../utils/enums';
@@ -16,7 +16,7 @@
   let importInProgress = storeIds.some(id => hasCachedData(id));
 
   $: account = getAccountById(id);
-  $: transactions = getTransactionForAccount(id);
+  $: transactions = getTransactionsForAccount(id);
 
   $: {
     console.log(account);

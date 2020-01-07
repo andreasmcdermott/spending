@@ -1,57 +1,60 @@
 <script>
-  import CategoryPicker from '../categories/CategoryPicker.svelte';
+  import MultiCategoryPicker from '../categories/MultiCategoryPicker.svelte';
+  import YearPicker from './YearPicker.svelte';
   import LineChart from '../elements/LineChart.svelte';
-  import { getTransactionForAccount } from '../transactions/store';
+  import { getTransactionsForAccount } from '../transactions/store';
   import { getFormattedAmount } from '../utils/transactions';
   import { getCategoryName, getCategoryColor } from '../utils/categories';
+  import CategoryTypes from '../enums/category-types';
 
   export let id;
 
-  let category = '';
+  let year = '';
+  let categories = [];
+  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep','Oct', 'Nov', 'Dec'];
 
-  const getInitialDataPerPeriod = data => {
-    if (!category) return {};
+  const getInitialData = (categories) => {
+    if (!categories.length) return {};
 
-    let minPeriod = null;
-    let maxPeriod = null;
-    const periods = Object.values(data).forEach(d => {
-      if (minPeriod === null || d.period < minPeriod) minPeriod = d.period;
-      if (maxPeriod === null || d.period > maxPeriod) maxPeriod = d.period;
-    });
+    const initialDatas = categories.reduce((acc, c) => { 
+      acc[c] = { label: getCategoryName(c), color: getCategoryColor(c), values: {} }; 
+      for (let i = 1; i <= 12; ++i) {
+        acc[c].values[i] = 0;
+      }
+      return acc; 
+    }, {});
+    
 
-    const initialData = {};
-    for (let p = minPeriod; p <= maxPeriod; ++p) {
-      initialData[p] = { label: String(p), color: getCategoryColor(category), value: 0 };
-    }
-
-    return initialData;
+    return initialDatas;
   };
 
-  const categoryData = getTransactionForAccount(id, 'category');
+  const categoryData = getTransactionsForAccount(id, 'category');
   let expensesByPeriod = [];
 
   $: {
-    categoryData.applyFilter({ category });
+    categoryData.applyFilter({ category: {'$in': categories} });
     expensesByPeriod = Object.values(
       $categoryData
         .map(d => ({
           value: getFormattedAmount(d),
-          period: d.period
+          category: d.category,
+          month: d.period % 100
         }))
         .reduce((acc, d) => {
-          acc[d.period].value += d.value;
+          acc[d.category].values[d.month] += d.value;
           return acc;
-        }, getInitialDataPerPeriod($categoryData))
+        }, getInitialData(categories))
     );
   }
 </script>
 
 <div>
-  <CategoryPicker bind:value={category} />
-  {#if category}
+  <YearPicker {id} bind:value={year} />
+  <MultiCategoryPicker bind:values={categories} categoryTypes={CategoryTypes.Spending} />
+  {#if categories.length}
     <LineChart
       title="Expenses per category"
-      label={getCategoryName(category)}
+      {labels}
       bind:data={expensesByPeriod} />
   {/if}
 </div>

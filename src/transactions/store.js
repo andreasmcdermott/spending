@@ -51,7 +51,7 @@ export const getAllPeriodsForAccount = accountId => {
   return collection.getAllPeriodsForAccount(accountId);
 };
 
-export const getTransactionForAccount = (accountId, uid) => {
+export const getTransactionsForAccount = (accountId, uid) => {
   const dynamicView = collection.createDynamicView(`account-${accountId}-${uid || uuid()}`);
   dynamicView.applyFind({ accountId });
   const dvStore = writable({});
@@ -66,8 +66,8 @@ export const getTransactionForAccount = (accountId, uid) => {
   };
 };
 
-export const getTransactionForAccountAndPeriod = (accountId, period) => {
-  const { subscribe, applyFilter } = getTransactionForAccount(accountId, 'period');
+export const getTransactionsForAccountAndPeriod = (accountId, period) => {
+  const { subscribe, applyFilter } = getTransactionsForAccount(accountId, 'period');
   const store = {
     subscribe,
     setPeriod: period => {

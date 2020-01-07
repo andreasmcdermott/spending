@@ -42,3 +42,4 @@ export const mapCategory = () => {
 
 export const getCategoryName = id => getCategoriesMap()[id].name;
 export const getCategoryColor = id => getCategoriesMap()[id].color;
+export const getCategoryType = id => getCategoriesMap()[id].type;

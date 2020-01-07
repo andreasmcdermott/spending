@@ -1,7 +1,7 @@
 <script>
   import PeriodPicker from '../accounts/PeriodPicker.svelte';
   import DoughnutChart from '../elements/DoughnutChart.svelte';
-  import { getTransactionForAccount } from '../transactions/store';
+  import { getTransactionsForAccount } from '../transactions/store';
   import { filterByCategoryType, getFormattedAmount } from '../utils/transactions';
   import { getCategoryName, getCategoryColor } from '../utils/categories';
   import CategoryTypes from '../enums/category-types';
@@ -26,7 +26,7 @@
       }, {});
   };
 
-  const periodData = getTransactionForAccount(id, 'period');
+  const periodData = getTransactionsForAccount(id, 'period');
   let expensesByCategory = [];
 
   $: {

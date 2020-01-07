@@ -4,20 +4,27 @@
 
   export let title;
   export let data;
-  export let label;
+  export let labels = null;
 
-  $: labels = data ? data.map(d => d.label) : [];
+
+  $: {
+    if (!labels) {
+      labels = data ? Object.keys(data[0].values) : [];
+    }
+  }
   $: datasets = data
-    ? [
-        {
-          label,
-          data: data.map(d => d.value),
-          backgroundColor: (data[0] || {}).color,
-          borderColor: (data[0] || {}).color,
-          fill: false
-        }
-      ]
+    ? data.map(d => ({
+      label: d.label,
+        data: Object.values(d.values),
+        backgroundColor: d.color,
+        borderColor: d.color,
+        fill: false
+      }))
     : [];
 </script>
 
-<Chart type="line" bind:labels bind:datasets options={buildOptions({ title })} />
+<Chart
+  type="line"
+  bind:labels
+  bind:datasets
+  options={buildOptions({ title, legend: { display: true } })} />

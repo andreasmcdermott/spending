@@ -1,7 +1,7 @@
 <script>
   export let items;
 
-  let selected = items[0];
+  let selected = items[items.length - 1];
 </script>
 
 <div>
