@@ -45,7 +45,7 @@
 </script>
 
 <div>
-  <PeriodPicker {id} bind:value={period} />
+  <PeriodPicker {id} bind:value={period} showPrevNext={true} />
   {#if period}
     <DoughnutChart title="Expenses per Category" bind:data={expensesByCategory} />
   {/if}

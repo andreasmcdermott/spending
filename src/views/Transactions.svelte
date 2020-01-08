@@ -34,7 +34,7 @@
 </script>
 
 <Header>
-  <Breadcrumbs items={[{ to: '..', name: account.name }, { name: 'Import' }]} />
+  <Breadcrumbs items={[{ to: '..', name: account.name }, { name: 'Transactions' }]} />
 </Header>
 
 {#if account}

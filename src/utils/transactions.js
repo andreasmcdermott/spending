@@ -20,7 +20,7 @@ export const filterByPeriod = period => transaction => transaction.period === pe
 
 export const getFormattedAmount = transaction => {
   let amount = Math.round(transaction.amount);
-  if (getCategoriesMap()[transaction.category].type === CategoryTypes.Spending) {
+  if (getCategoriesMap()[transaction.category].type !== CategoryTypes.Income) {
     amount *= -1;
   }
   return amount;

@@ -11,19 +11,31 @@
 
   let year = '';
   let categories = [];
-  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep','Oct', 'Nov', 'Dec'];
+  const labels = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
 
-  const getInitialData = (categories) => {
+  const getInitialData = categories => {
     if (!categories.length) return {};
 
-    const initialDatas = categories.reduce((acc, c) => { 
-      acc[c] = { label: getCategoryName(c), color: getCategoryColor(c), values: {} }; 
+    const initialDatas = categories.reduce((acc, c) => {
+      acc[c] = { label: getCategoryName(c), color: getCategoryColor(c), values: {} };
       for (let i = 1; i <= 12; ++i) {
         acc[c].values[i] = 0;
       }
-      return acc; 
+      return acc;
     }, {});
-    
 
     return initialDatas;
   };
@@ -32,7 +44,7 @@
   let expensesByPeriod = [];
 
   $: {
-    categoryData.applyFilter({ category: {'$in': categories} });
+    categoryData.applyFilter({ category: { $in: categories } });
     expensesByPeriod = Object.values(
       $categoryData
         .map(d => ({
@@ -49,12 +61,13 @@
 </script>
 
 <div>
-  <YearPicker {id} bind:value={year} />
-  <MultiCategoryPicker bind:values={categories} categoryTypes={CategoryTypes.Spending} />
+  <div class="flex">
+    <div class="mr-2">
+      <YearPicker {id} bind:value={year} />
+    </div>
+    <MultiCategoryPicker bind:values={categories} categoryTypes={CategoryTypes.Spending} />
+  </div>
   {#if categories.length}
-    <LineChart
-      title="Expenses per category"
-      {labels}
-      bind:data={expensesByPeriod} />
+    <LineChart title="Expenses per category" {labels} bind:data={expensesByPeriod} />
   {/if}
 </div>

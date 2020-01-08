@@ -7,10 +7,10 @@
   export let id;
 
   const items = [
-    { label: 'Summary', component: AccountSummaryChart, props: { id } },
-    { label: 'Expenses per month', component: ExpensesInPeriodChart, props: { id } },
-    { label: 'Expenses per categories', component: ExpensesInCategoriesChart, props: { id } }
+    { label: 'Summary', component: AccountSummaryChart },
+    { label: 'Expenses per month', component: ExpensesInPeriodChart },
+    { label: 'Expenses per categories', component: ExpensesInCategoriesChart }
   ];
 </script>
 
-<Tabs {items} />
+<Tabs {items} props={{ id }} />

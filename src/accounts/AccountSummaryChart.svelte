@@ -10,7 +10,20 @@
 
   export let id;
 
-  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep','Oct', 'Nov', 'Dec'];
+  const labels = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
   let year = '';
 
   const getInitialData = () => {
@@ -41,28 +54,25 @@
     return initialData;
   };
 
-  const data = getTransactionsForAccount(id, 'summary');
-  let summary = [];
-  $: {
-    summary = Object.values(
-      $data
-        .map(d => ({
-          value: getFormattedAmount(d),
-          month: d.period % 100,
-          categoryType: getCategoryType(d.category)
-        }))
-        .filter(d => d.categoryType !== CategoryTypes.Ignored)
-        .reduce((acc, d) => {
-          acc[d.categoryType].values[d.month] += d.value;
-          return acc;
-        }, getInitialData())
-    );
-  }
+  $: data = getTransactionsForAccount(id, 'summary');
+  $: summary = Object.values(
+    $data
+      .map(d => ({
+        value: getFormattedAmount(d),
+        month: d.period % 100,
+        categoryType: getCategoryType(d.category)
+      }))
+      .filter(d => d.categoryType !== CategoryTypes.Ignored)
+      .reduce((acc, d) => {
+        acc[d.categoryType].values[d.month] += d.value;
+        return acc;
+      }, getInitialData())
+  );
 </script>
 
 <div>
   <YearPicker {id} bind:value={year} />
   {#if year}
-    <LineChart title="Year Summary" {labels} bind:data={summary} />
+    <LineChart title="{year} Summary" {labels} bind:data={summary} />
   {/if}
 </div>

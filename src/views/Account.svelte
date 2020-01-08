@@ -39,7 +39,7 @@
     {#if !account.importFormat.columns.length}
       <Button size="sm" on:click={() => goto('format')}>Define Format</Button>
     {:else}
-      <Button size="sm" on:click={() => goto('update')}>Update</Button>
+      <Button size="sm" on:click={() => goto('transactions')}>Transactions</Button>
       <Button size="sm" on:click={() => goto('import')}>Import</Button>
     {/if}
     <Button size="sm" on:click={handleRemove}>Remove</Button>
@@ -64,6 +64,6 @@
   </div>
 {/if}
 
-<div class="mt-4 p-4 border">
-  <AccountChart {id} />
+<div class="mt-4">
+  <AccountChart bind:id />
 </div>

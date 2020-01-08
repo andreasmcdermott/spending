@@ -6,7 +6,7 @@
   import Account from './views/Account.svelte';
   import ImportFormat from './views/ImportFormat.svelte';
   import Import from './views/Import.svelte';
-  import Update from './views/Update.svelte';
+  import Transactions from './views/Transactions.svelte';
   import Categories from './views/Categories.svelte';
   import Profile from './views/Profile.svelte';
   import Admin from './views/Admin.svelte';
@@ -22,7 +22,7 @@
     { path: '/accounts/:id', view: Account },
     { path: '/accounts/:id/format', view: ImportFormat },
     { path: '/accounts/:id/import', view: Import },
-    { path: '/accounts/:id/update', view: Update }
+    { path: '/accounts/:id/transactions', view: Transactions }
   ];
 </script>
 
