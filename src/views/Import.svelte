@@ -19,6 +19,7 @@
   import { createCachedStore } from '../utils/cachedStore';
 
   export let id;
+  let filter = '';
 
   $: account = getAccountById(id);
 
@@ -73,6 +74,7 @@
       </div>
       <div class="w-1/2 ml-2">
         <NewFilterForm
+          bind:value={filter}
           on:created={() => {
             mappedRows = [...mappedRows];
           }} />
@@ -88,6 +90,9 @@
     bind:rows={mappedRows}
     on:change={e => {
       $manuallyMappedRows = { ...$manuallyMappedRows, [e.detail.rowId]: e.detail.categoryId };
+    }}
+    on:filter={e => {
+      filter = e.detail;
     }} />
 
   <div class="mt-4">

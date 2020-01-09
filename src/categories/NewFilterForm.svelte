@@ -11,6 +11,8 @@
 
   const dispatch = createEventDispatcher();
 
+  export let value = '';
+
   function onNewFilter({ detail: { values, reset } }) {
     if (!values.description || !values.category) return;
     const category = $categories.find(c => c.id === values.category);
@@ -36,7 +38,7 @@
   <div class="flex">
     <div class="flex flex-col">
       <div>
-        <Field label="Match desription" name="description" />
+        <Field label="Match desription" name="description" bind:value />
       </div>
       <div class="mt-4">
         <Label for="new-filter-category">for Category</Label>

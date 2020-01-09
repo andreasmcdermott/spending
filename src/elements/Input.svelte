@@ -16,7 +16,9 @@
   const widths = {
     xs: 'w-24',
     sm: 'w-40',
-    base: 'w-64'
+    base: 'w-64',
+    half: 'w-1/2',
+    full: 'w-full'
   };
 
   const clazz = 'outline-none border-gray-400 focus:border-blue-500';
