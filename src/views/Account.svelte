@@ -11,17 +11,11 @@
   import AccountChart from '../accounts/AccountChart.svelte';
 
   export let id;
-
   const storeIds = [`current-rows-${id}`, `current-manual-mapping-${id}`];
   let importInProgress = storeIds.some(id => hasCachedData(id));
 
   $: account = getAccountById(id);
   $: transactions = getTransactionsForAccount(id);
-
-  $: {
-    console.log(account);
-    console.log($transactions);
-  }
 
   const handleRemove = () => {
     removeAccount(id);
@@ -42,6 +36,7 @@
       <Button size="sm" on:click={() => goto('transactions')}>Transactions</Button>
       <Button size="sm" on:click={() => goto('import')}>Import</Button>
     {/if}
+    <Button size="sm" on:click={() => goto('settings')}>Settings</Button>
     <Button size="sm" on:click={handleRemove}>Remove</Button>
   </div>
 </div>

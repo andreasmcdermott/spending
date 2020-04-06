@@ -3,7 +3,7 @@ import Collection from '../db/Collection';
 import { sortBy } from '../utils/fns';
 import uuid from '../utils/uuid';
 
-const mapTransaction = t => {
+const mapTransaction = (t) => {
   t.date = new Date(t.date);
   return t;
 };
@@ -35,19 +35,30 @@ class TransactionsCollection extends Collection {
 
   getAllPeriodsForAccount(id) {
     const obj = this.getAllForAccount(id)
-      .map(t => t.period)
+      .map((t) => t.period)
       .reduce((acc, p) => ({ ...acc, [p]: true }), {});
+    return Object.keys(obj);
+  }
+
+  getAllPeriods() {
+    const obj = this.getAll()
+      .map((t) => t.period)
+      .reduce((acc, p) => ({ ...acc, [p]: true }));
     return Object.keys(obj);
   }
 }
 
 const collection = new TransactionsCollection();
 
+export const getAllPeriods = () => {
+  return collection.getAllPeriods();
+};
+
 export const getAllTransactions = () => {
   return collection.getAll();
 };
 
-export const getAllPeriodsForAccount = accountId => {
+export const getAllPeriodsForAccount = (accountId) => {
   return collection.getAllPeriodsForAccount(accountId);
 };
 
@@ -58,11 +69,11 @@ export const getTransactionsForAccount = (accountId, uid) => {
   const { subscribe } = derived([collection.store, dvStore], () => dynamicView.data());
   return {
     subscribe,
-    applyFilter: filters => {
+    applyFilter: (filters) => {
       dynamicView.removeFilters();
       dynamicView.applyFind({ ...filters, accountId });
       dvStore.set({});
-    }
+    },
   };
 };
 
@@ -70,12 +81,12 @@ export const getTransactionsForAccountAndPeriod = (accountId, period) => {
   const { subscribe, applyFilter } = getTransactionsForAccount(accountId, 'period');
   const store = {
     subscribe,
-    setPeriod: period => {
+    setPeriod: (period) => {
       if (typeof period === 'string') {
         period = parseInt(period, 10);
       }
       applyFilter({ period });
-    }
+    },
   };
   store.setPeriod(period);
   return store;
@@ -83,13 +94,13 @@ export const getTransactionsForAccountAndPeriod = (accountId, period) => {
 
 export const importTransactions = (accountId, transactions) => {
   collection.insertMany(
-    transactions.map(t => {
+    transactions.map((t) => {
       t.accountId = accountId;
       return t;
     })
   );
 };
 
-export const updateTransactions = transactions => {
+export const updateTransactions = (transactions) => {
   collection.updateMany(transactions);
 };

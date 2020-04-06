@@ -1,27 +1,21 @@
-import { get } from 'svelte/store';
+import { createCachedMap } from '../utils/fns';
 import { categories } from '../categories/store';
+import { accounts } from '../accounts/store';
 import CategoryTypes from '../enums/category-types';
 
-let categoriesMap = null;
-const getCategoriesMap = () => {
-  if (!categoriesMap) {
-    categoriesMap = get(categories).reduce((acc, c) => {
-      acc[c.id] = c;
-      return acc;
-    }, {});
-  }
-  return categoriesMap;
-};
+const getCategoriesMap = createCachedMap(categories);
+const getAccountsMap = createCachedMap(accounts);
 
-export const filterByCategoryType = type => ({ category }) =>
+export const filterByCategoryType = (type) => ({ category }) =>
   getCategoriesMap()[category].type === type;
 
-export const filterByPeriod = period => transaction => transaction.period === period;
+export const filterByPeriod = (period) => (transaction) => transaction.period === period;
 
-export const getFormattedAmount = transaction => {
-  let amount = Math.round(transaction.amount);
-  if (getCategoriesMap()[transaction.category].type !== CategoryTypes.Income) {
-    amount *= -1;
-  }
-  return amount;
+export const getFormattedAmount = (transaction) => {
+  const account = getAccountsMap()[transaction.accountId];
+  const category = getCategoriesMap()[transaction.category];
+  return (
+    Math.round(transaction.amount) *
+    (account.flipAmount && category.type !== CategoryTypes.Income ? -1 : 1)
+  );
 };

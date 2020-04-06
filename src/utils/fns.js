@@ -1,4 +1,6 @@
-export const sortBy = prop => (obj1, obj2) => {
+import { get } from 'svelte/store';
+
+export const sortBy = (prop) => (obj1, obj2) => {
   let p1 = obj1[prop];
   let p2 = obj2[prop];
 
@@ -15,17 +17,30 @@ export const sortBy = prop => (obj1, obj2) => {
   return p1.localeCompare(p2);
 };
 
-const isUpperCase = letter => /[A-Z]/.test(letter);
+const isUpperCase = (letter) => /[A-Z]/.test(letter);
 
-export const labelifyCamelCase = str =>
+export const labelifyCamelCase = (str) =>
   str
     .split('')
     .reduce((acc, l) => acc + (isUpperCase(l) ? ' ' : '') + l, '')
     .trim();
 
-export const createSlugFromName = name =>
+export const createSlugFromName = (name) =>
   name
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/, '')
     .replace(/\s+/, '-');
+
+export const createCachedMap = (store) => {
+  let map = null;
+  return () => {
+    if (!map) {
+      map = get(store).reduce((acc, x) => {
+        acc[x.id] = x;
+        return acc;
+      }, {});
+    }
+    return map;
+  };
+};

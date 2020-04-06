@@ -10,6 +10,7 @@
   import Categories from './views/Categories.svelte';
   import Profile from './views/Profile.svelte';
   import Admin from './views/Admin.svelte';
+  import AccountSettings from './views/AccountSettings.svelte';
   import { loadDb } from './db/db';
 
   const dbPromise = loadDb();
@@ -21,6 +22,7 @@
     { path: '/accounts/create', view: CreateAccount },
     { path: '/accounts/:id', view: Account },
     { path: '/accounts/:id/format', view: ImportFormat },
+    { path: '/accounts/:id/settings', view: AccountSettings },
     { path: '/accounts/:id/import', view: Import },
     { path: '/accounts/:id/transactions', view: Transactions }
   ];

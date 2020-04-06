@@ -15,17 +15,27 @@ class AccountsCollection extends Collection {
 const collection = new AccountsCollection();
 
 export const accounts = {
-  subscribe: collection.store.subscribe
+  subscribe: collection.store.subscribe,
 };
 
-export const createAccount = account => {
+export const createAccount = (account) => {
   const slug = createSlugFromName(account.name);
-  return collection.insert({ ...account, importFormat: { columns: [] }, slug });
+  return collection.insert({
+    ...account,
+    importFormat: { columns: [] },
+    slug,
+    flipAmount: account.flipAmount === 'yes',
+  });
 };
 
-export const getAccountById = id => collection.getOne(id);
+export const updateAccount = (id, { name, type, flipAmount }) => {
+  const account = collection.getOne(id);
+  return collection.update({ ...account, name, type, flipAmount: flipAmount === 'yes' });
+};
 
-export const removeAccount = id => collection.remove(id);
+export const getAccountById = (id) => collection.getOne(id);
+
+export const removeAccount = (id) => collection.remove(id);
 
 export const updateImportFormat = (id, importFormat) => {
   const account = collection.getOne(id);
@@ -35,11 +45,13 @@ export const updateImportFormat = (id, importFormat) => {
   collection.update({ ...account, importFormat });
 };
 
-const isValidImportFormat = importFormat => {
+const isValidImportFormat = (importFormat) => {
   if (!importFormat) return false;
   if (!importFormat.columns) return false;
   const requiredColumns = [ColumnTypes.Date, ColumnTypes.Amount, ColumnTypes.Description];
-  return requiredColumns.every(req => importFormat.columns.some(c => c.type === req && !!c.name));
+  return requiredColumns.every((req) =>
+    importFormat.columns.some((c) => c.type === req && !!c.name)
+  );
 };
 
-const hasIdColumn = importFormat => importFormat.columns.some(c => c.type === ColumnTypes.Id);
+const hasIdColumn = (importFormat) => importFormat.columns.some((c) => c.type === ColumnTypes.Id);
