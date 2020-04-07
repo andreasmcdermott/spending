@@ -4,7 +4,9 @@
   export let year;
   export let data;
 
-  const averagePerMonth = amount => amount / 12;
+  const numMonth = Object.keys(data.periods).length;
+
+  const averagePerMonth = amount => amount / numMonth;
 </script>
 
 <div class="mt-8">

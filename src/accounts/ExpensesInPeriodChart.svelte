@@ -26,7 +26,7 @@
       }, {});
   };
 
-  const periodData = getTransactionsForAccount(id, 'period');
+  $: periodData = getTransactionsForAccount(id, 'period');
   let expensesByCategory = [];
 
   $: {

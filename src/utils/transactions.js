@@ -19,3 +19,5 @@ export const getFormattedAmount = (transaction) => {
     (account.flipAmount && category.type !== CategoryTypes.Income ? -1 : 1)
   );
 };
+
+export const formatForDisplay = (amount, flipAmount = false) => (flipAmount ? -1 : 1) * amount;

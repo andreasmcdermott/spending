@@ -87,6 +87,7 @@
 
 {#if fileLoaded && mappedRows.length}
   <TransactionsTable
+    flipAmount={!account.flipAmount}
     bind:rows={mappedRows}
     on:change={e => {
       $manuallyMappedRows = { ...$manuallyMappedRows, [e.detail.rowId]: e.detail.categoryId };

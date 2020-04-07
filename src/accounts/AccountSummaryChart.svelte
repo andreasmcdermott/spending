@@ -54,15 +54,17 @@
     return initialData;
   };
 
+  $: yearValue = parseInt(year, 10);
   $: data = getTransactionsForAccount(id, 'summary');
   $: summary = Object.values(
     $data
       .map(d => ({
+        year: Math.floor(d.period / 100),
         value: getFormattedAmount(d),
         month: d.period % 100,
         categoryType: getCategoryType(d.category)
       }))
-      .filter(d => d.categoryType !== CategoryTypes.Ignored)
+      .filter(d => d.categoryType !== CategoryTypes.Ignored && d.year === yearValue)
       .reduce((acc, d) => {
         acc[d.categoryType].values[d.month] += d.value;
         return acc;

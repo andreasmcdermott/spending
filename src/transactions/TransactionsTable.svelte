@@ -8,8 +8,10 @@
   import Button from '../elements/Button.svelte';
   import Icon from '../elements/Icon.svelte';
   import { sortBy } from '../utils/fns';
+  import { formatForDisplay } from '../utils/transactions';
 
   export let rows;
+  export let flipAmount = false;
 
   const dispatch = createEventDispatcher();
 
@@ -121,7 +123,7 @@
         </div>
         <div>{row.description}</div>
       </div>
-      <div class="w-1/12 text-right">{row.amount}</div>
+      <div class="w-1/12 text-right">{formatForDisplay(row.amount, flipAmount)}</div>
       <div class="w-3/12 text-right">
         <CategoryPicker
           value={row.category}

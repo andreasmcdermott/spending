@@ -40,7 +40,7 @@
     return initialDatas;
   };
 
-  const categoryData = getTransactionsForAccount(id, 'category');
+  $: categoryData = getTransactionsForAccount(id, 'category');
   let expensesByPeriod = [];
 
   $: {
@@ -50,8 +50,10 @@
         .map(d => ({
           value: getFormattedAmount(d),
           category: d.category,
+          year: Math.floor(d.period / 100),
           month: d.period % 100
         }))
+        .filter(d => d.year === parseInt(year, 10))
         .reduce((acc, d) => {
           acc[d.category].values[d.month] += d.value;
           return acc;
