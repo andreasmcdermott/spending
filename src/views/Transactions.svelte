@@ -54,7 +54,6 @@
       </div>
     </div>
     <TransactionsTable
-      flipAmount={account.flipAmount}
       bind:rows={rowsWithChanges}
       on:change={e => {
         overrides = { ...overrides, [e.detail.rowId]: e.detail.categoryId };

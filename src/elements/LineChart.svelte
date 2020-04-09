@@ -20,14 +20,10 @@
         fill: false
       }))
     : [];
-
-  $: {
-    console.log(datasets);
-  }
 </script>
 
 <Chart
   type="line"
   {labels}
   {datasets}
-  options={buildOptions({ title, legend: { display: true } })} />
+  options={buildOptions({ title, legend: { display: true }, yAxes: { isDollar: true } })} />

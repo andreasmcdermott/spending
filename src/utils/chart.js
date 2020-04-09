@@ -11,8 +11,10 @@ export function buildOptions(options) {
       },
     ],
     yAxes: [{ display: true, scaleLabel: { display: true, labelString: 'YYY' } }],
-    scales: {
-      yAxes: [{ ticks: { callback: (value) => formatAmount(value) } }],
-    },
+    scales: (options.yAxes || {}).isDollar
+      ? {
+          yAxes: [{ ticks: { callback: (value) => formatAmount(value) } }],
+        }
+      : undefined,
   };
 }
