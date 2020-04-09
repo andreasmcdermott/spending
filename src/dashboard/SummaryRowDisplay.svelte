@@ -9,12 +9,12 @@
   if (!mapper) mapper = amount => amount;
 </script>
 
-<div class="flex items-center border-b w-3/4">
+<div class="flex items-center border-b">
   <span class="w-1/2">{title}:</span>
   <div class="w-1/2 text-lg text-right font-mono">{formatAmount(mapper(data.total))}</div>
 </div>
 {#if includeSubs}
-  <div class="w-3/4">
+  <div>
     {#each Object.keys(data.subs) as sub}
       <div class="ml-4 flex items-center border-b">
         <span class="w-1/2 text-base">{sub}:</span>

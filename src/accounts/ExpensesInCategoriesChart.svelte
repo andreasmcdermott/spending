@@ -1,30 +1,18 @@
 <script>
   import MultiCategoryPicker from '../categories/MultiCategoryPicker.svelte';
-  import YearPicker from './YearPicker.svelte';
+  import YearPicker from './AccountYearPicker.svelte';
   import LineChart from '../elements/LineChart.svelte';
   import { getTransactionsForAccount } from '../transactions/store';
   import { getFormattedAmount } from '../utils/transactions';
   import { getCategoryName, getCategoryColor } from '../utils/categories';
   import CategoryTypes from '../enums/category-types';
+  import { shortMonths } from '../utils/date';
 
   export let id;
 
   let year = '';
-  let categories = [];
-  const labels = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ];
+  let selectedCategories = [];
+  const labels = shortMonths;
 
   const getInitialData = categories => {
     if (!categories.length) return {};
@@ -40,24 +28,26 @@
     return initialDatas;
   };
 
-  $: categoryData = getTransactionsForAccount(id, 'category');
   let expensesByPeriod = [];
-
+  $: data = getTransactionsForAccount(id, 'category');
   $: {
-    categoryData.applyFilter({ category: { $in: categories } });
+    const yearValue = parseInt(year, 10) * 100;
+    data.applyFilter({
+      category: { $in: selectedCategories },
+      period: { $between: [yearValue + 1, yearValue + 12] }
+    });
     expensesByPeriod = Object.values(
-      $categoryData
+      $data
         .map(d => ({
           value: getFormattedAmount(d),
           category: d.category,
           year: Math.floor(d.period / 100),
           month: d.period % 100
         }))
-        .filter(d => d.year === parseInt(year, 10))
         .reduce((acc, d) => {
           acc[d.category].values[d.month] += d.value;
           return acc;
-        }, getInitialData(categories))
+        }, getInitialData(selectedCategories))
     );
   }
 </script>
@@ -67,9 +57,9 @@
     <div class="mr-2">
       <YearPicker {id} bind:value={year} />
     </div>
-    <MultiCategoryPicker bind:values={categories} categoryTypes={CategoryTypes.Spending} />
+    <MultiCategoryPicker bind:values={selectedCategories} categoryTypes={CategoryTypes.Spending} />
   </div>
-  {#if categories.length}
+  {#if selectedCategories.length}
     <LineChart title="Expenses per category" {labels} bind:data={expensesByPeriod} />
   {/if}
 </div>

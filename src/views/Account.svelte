@@ -1,12 +1,13 @@
 <script>
   import { getAccountById, removeAccount } from '../accounts/store';
-  import { getTransactionsForAccount } from '../transactions/store';
+  import { getDateOfLatestTransactionForAccount } from '../transactions/store';
   import Header from '../elements/Header.svelte';
   import Button from '../elements/Button.svelte';
   import { getNameByValue } from '../utils/enums';
   import AccountTypes from '../enums/account-types';
   import Link from '../router/Link.svelte';
   import { goto } from '../router/fns';
+  import { toString } from '../utils/date';
   import { hasCachedData, clearCachedData } from '../utils/cachedStore';
   import AccountChart from '../accounts/AccountChart.svelte';
 
@@ -15,7 +16,7 @@
   let importInProgress = storeIds.some(id => hasCachedData(id));
 
   $: account = getAccountById(id);
-  $: transactions = getTransactionsForAccount(id);
+  $: latestTransactionDate = getDateOfLatestTransactionForAccount(id);
 
   const handleRemove = () => {
     removeAccount(id);
@@ -61,4 +62,9 @@
 
 <div class="mt-4">
   <AccountChart bind:id />
+</div>
+
+<div class="mt-4 pt-2 border-t text-sm">
+  <strong>Latest transaction:</strong>
+  {toString(new Date(latestTransactionDate))}
 </div>

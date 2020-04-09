@@ -5,41 +5,29 @@
   import { getFormattedAmount } from '../utils/transactions';
   import { getCategoryType } from '../utils/categories';
   import CategoryTypes from '../enums/category-types';
-  import YearPicker from './YearPicker.svelte';
+  import YearPicker from './AccountYearPicker.svelte';
   import { getNameByValue } from '../utils/enums';
+  import { shortMonths } from '../utils/date';
 
   export let id;
 
-  const labels = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ];
   let year = '';
+  const labels = shortMonths;
 
   const getInitialData = () => {
     const initialData = {
       [CategoryTypes.Spending]: {
-        color: 'red',
+        color: 'orangered',
         label: getNameByValue(CategoryTypes, CategoryTypes.Spending),
         values: {}
       },
       [CategoryTypes.Income]: {
-        color: 'green',
+        color: 'seagreen',
         label: getNameByValue(CategoryTypes, CategoryTypes.Income),
         values: {}
       },
       [CategoryTypes.Savings]: {
-        color: 'blue',
+        color: 'royalblue',
         label: getNameByValue(CategoryTypes, CategoryTypes.Savings),
         values: {}
       }
@@ -54,8 +42,11 @@
     return initialData;
   };
 
-  $: yearValue = parseInt(year, 10);
   $: data = getTransactionsForAccount(id, 'summary');
+  $: {
+    const yearValue = parseInt(year, 10) * 100;
+    data.applyFilter({ period: { $between: [yearValue + 1, yearValue + 12] } });
+  }
   $: summary = Object.values(
     $data
       .map(d => ({
@@ -64,7 +55,7 @@
         month: d.period % 100,
         categoryType: getCategoryType(d.category)
       }))
-      .filter(d => d.categoryType !== CategoryTypes.Ignored && d.year === yearValue)
+      .filter(d => d.categoryType !== CategoryTypes.Ignored)
       .reduce((acc, d) => {
         acc[d.categoryType].values[d.month] += d.value;
         return acc;

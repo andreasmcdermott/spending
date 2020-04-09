@@ -43,7 +43,7 @@ class TransactionsCollection extends Collection {
   getAllPeriods() {
     const obj = this.getAll()
       .map((t) => t.period)
-      .reduce((acc, p) => ({ ...acc, [p]: true }));
+      .reduce((acc, p) => ({ ...acc, [p]: true }), {});
     return Object.keys(obj);
   }
 }
@@ -54,8 +54,18 @@ export const getAllPeriods = () => {
   return collection.getAllPeriods();
 };
 
+export const getAllYears = () => {
+  const years = getAllPeriods().reduce((acc, p) => ({ ...acc, [Math.floor(p / 100)]: true }), {});
+  return Object.keys(years);
+};
+
 export const getAllTransactions = () => {
   return collection.getAll();
+};
+
+export const getAllTransactionsInYear = (year) => {
+  if (!year) return [];
+  return collection.getFiltered({ period: { $between: [year * 100 + 1, year * 100 + 12] } });
 };
 
 export const getAllPeriodsForAccount = (accountId) => {
@@ -74,6 +84,7 @@ export const getTransactionsForAccount = (accountId, uid) => {
       dynamicView.applyFind({ ...filters, accountId });
       dvStore.set({});
     },
+    mapReduce: (m, r) => dynamicView.mapReduce(m, r),
   };
 };
 
@@ -104,3 +115,9 @@ export const importTransactions = (accountId, transactions) => {
 export const updateTransactions = (transactions) => {
   collection.updateMany(transactions);
 };
+
+export const getDateOfLatestTransactionForAccount = (id) =>
+  getTransactionsForAccount(id, 'latest-date').mapReduce(
+    (t) => t.date,
+    (dates) => dates.reduce((acc, d) => (acc > d ? acc : d))
+  );
