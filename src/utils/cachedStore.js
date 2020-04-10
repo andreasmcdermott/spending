@@ -4,7 +4,7 @@ export const createCachedStore = (name, initialValue) => {
   const current = localStorage.getItem(name);
   const store = writable(current === null ? initialValue : JSON.parse(current));
 
-  store.subscribe(val => {
+  store.subscribe((val) => {
     localStorage.setItem(name, JSON.stringify(val));
   });
 
@@ -13,7 +13,7 @@ export const createCachedStore = (name, initialValue) => {
   return store;
 };
 
-export const hasCachedData = name => {
+export const hasCachedData = (name) => {
   const current = localStorage.getItem(name);
   if (current === null) return false;
   const data = JSON.parse(current);
@@ -22,6 +22,6 @@ export const hasCachedData = name => {
   return !!data;
 };
 
-export const clearCachedData = name => {
+export const clearCachedData = (name) => {
   localStorage.removeItem(name);
 };

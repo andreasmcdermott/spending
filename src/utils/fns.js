@@ -29,8 +29,8 @@ export const createSlugFromName = (name) =>
   name
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9]+/, '')
-    .replace(/\s+/, '-');
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9\-]+/g, '');
 
 export const createCachedMap = (store) => {
   let map = null;

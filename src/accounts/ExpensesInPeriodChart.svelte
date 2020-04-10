@@ -5,12 +5,13 @@
   import { filterByCategoryType, getFormattedAmount } from '../utils/transactions';
   import { getCategoryName, getCategoryColor } from '../utils/categories';
   import CategoryTypes from '../enums/category-types';
+  import { createCachedStore } from '../utils/cachedStore';
 
   export let id;
-  let period = '';
+  const period = createCachedStore('account-summary-selected-period', '');
 
   const getInitialDataPerCategory = data => {
-    if (!period) return {};
+    if (!$period) return {};
 
     return Object.values(data)
       .map(d => d.category)
@@ -30,7 +31,7 @@
   let expensesByCategory = [];
 
   $: {
-    periodData.applyFilter({ period: parseInt(period, 10) });
+    periodData.applyFilter({ period: parseInt($period, 10) });
     expensesByCategory = Object.values(
       $periodData
         .filter(filterByCategoryType(CategoryTypes.Spending))
@@ -45,8 +46,8 @@
 </script>
 
 <div>
-  <PeriodPicker {id} bind:value={period} showPrevNext={true} />
-  {#if period}
-    <DoughnutChart title="Expenses per Category" bind:data={expensesByCategory} />
+  <PeriodPicker {id} value={$period} showPrevNext={true} on:change={e => ($period = e.detail)} />
+  {#if $period}
+    <DoughnutChart title="Expenses per Category" data={expensesByCategory} />
   {/if}
 </div>

@@ -51,9 +51,6 @@
       return acc;
     }, getInitialData());
   $: data = Object.values(summary);
-  $: {
-    console.log(data);
-  }
 </script>
 
 <div class="mt-8">

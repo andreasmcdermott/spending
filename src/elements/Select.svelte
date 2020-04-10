@@ -1,4 +1,8 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
+
   export let id = undefined;
   export let name = undefined;
   export let value = '';
@@ -21,7 +25,7 @@
   {id}
   {name}
   bind:value
-  on:change
+  on:change={e => dispatch('change', value)}
   class={`${clazz} ${widthClazz} ${sizeClazz}`}
   style={size === 'sm' ? 'height: 2rem;' : 'height: calc(2.75rem - 1px);'}>
   <slot />

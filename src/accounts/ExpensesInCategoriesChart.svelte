@@ -7,12 +7,13 @@
   import { getCategoryName, getCategoryColor } from '../utils/categories';
   import CategoryTypes from '../enums/category-types';
   import { shortMonths } from '../utils/date';
+  import { createCachedStore } from '../utils/cachedStore';
 
   export let id;
 
-  let year = '';
-  let selectedCategories = [];
   const labels = shortMonths;
+  const year = createCachedStore('account-summary-selected-year', '');
+  const selectedCategories = createCachedStore('account-summary-selected-categories', []);
 
   const getInitialData = categories => {
     if (!categories.length) return {};
@@ -31,9 +32,9 @@
   let expensesByPeriod = [];
   $: data = getTransactionsForAccount(id, 'category');
   $: {
-    const yearValue = parseInt(year, 10) * 100;
+    const yearValue = parseInt($year, 10) * 100;
     data.applyFilter({
-      category: { $in: selectedCategories },
+      category: { $in: $selectedCategories },
       period: { $between: [yearValue + 1, yearValue + 12] }
     });
     expensesByPeriod = Object.values(
@@ -47,7 +48,7 @@
         .reduce((acc, d) => {
           acc[d.category].values[d.month] += d.value;
           return acc;
-        }, getInitialData(selectedCategories))
+        }, getInitialData($selectedCategories))
     );
   }
 </script>
@@ -55,11 +56,16 @@
 <div>
   <div class="flex">
     <div class="mr-2">
-      <YearPicker {id} bind:value={year} />
+      <YearPicker {id} value={$year} on:change={e => ($year = e.detail)} />
     </div>
-    <MultiCategoryPicker bind:values={selectedCategories} categoryTypes={CategoryTypes.Spending} />
+    <MultiCategoryPicker
+      values={$selectedCategories}
+      categoryTypes={CategoryTypes.Spending}
+      on:change={e => {
+        $selectedCategories = e.detail;
+      }} />
   </div>
-  {#if selectedCategories.length}
-    <LineChart title="Expenses per category" {labels} bind:data={expensesByPeriod} />
+  {#if $selectedCategories.length}
+    <LineChart title="Expenses per category" {labels} data={expensesByPeriod} />
   {/if}
 </div>

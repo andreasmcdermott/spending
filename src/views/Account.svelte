@@ -12,6 +12,7 @@
   import AccountChart from '../accounts/AccountChart.svelte';
 
   export let id;
+
   const storeIds = [`current-rows-${id}`, `current-manual-mapping-${id}`];
   let importInProgress = storeIds.some(id => hasCachedData(id));
 

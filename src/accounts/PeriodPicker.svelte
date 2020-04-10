@@ -1,8 +1,11 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
   import Select from '../elements/Select.svelte';
   import Button from '../elements/Button.svelte';
   import Icon from '../elements/Icon.svelte';
   import { getAllPeriodsForAccount } from '../transactions/store';
+
+  const dispatch = createEventDispatcher();
 
   export let id;
   export let value = '';
@@ -24,6 +27,7 @@
             if (Number.isInteger(num)) {
               value = String(Math.max(num - 1, first));
             }
+            dispatch('change', value);
           }
         }}>
         <Icon name="arrow-left" label="Previous" />
@@ -49,6 +53,7 @@
           } else {
             value = String(first);
           }
+          dispatch('change', value);
         }}>
         <Icon name="arrow-right" label="Next" />
       </Button>

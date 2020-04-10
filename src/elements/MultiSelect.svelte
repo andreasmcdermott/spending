@@ -1,5 +1,8 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
   import Select from './Select.svelte';
+
+  const dispatch = createEventDispatcher();
 
   export let name = undefined;
   export let id = undefined;
@@ -24,6 +27,7 @@
       on:change={() => {
         values = [...values, value];
         value = '';
+        dispatch('change', values);
       }}>
       <option value="">{empty}</option>
       {#each items as item}

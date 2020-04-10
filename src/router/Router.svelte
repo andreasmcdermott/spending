@@ -1,6 +1,6 @@
 <script>
-  import { derived } from "svelte/store";
-  import store from "./store";
+  import { derived } from 'svelte/store';
+  import store from './store';
 
   export let routes;
 
@@ -24,10 +24,8 @@
 
   const urlRegexp = routes.reduce((acc, r) => {
     acc[r.path] = new RegExp(
-      `^${r.path
-        .replace(/\//g, "\\/")
-        .replace(/:[a-z]+/gi, "([a-z0-9\\-]+)")}$`,
-      "gi"
+      `^${r.path.replace(/\//g, '\\/').replace(/:[a-z]+/gi, '([a-z0-9\\-]+)')}$`,
+      'gi'
     );
     return acc;
   }, {});
@@ -40,7 +38,7 @@
 
   const match = derived(store, $store => {
     const route = routes.find(r =>
-      r.path.includes(":") ? urlRegexp[r.path].test($store) : r.path === $store
+      r.path.includes(':') ? urlRegexp[r.path].test($store) : r.path === $store
     );
     if (!route) return null;
     const argumentValues = getArgs(urlRegexp[route.path], $store);

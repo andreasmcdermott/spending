@@ -1,8 +1,16 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
+  import { createSlugFromName } from '../utils/fns';
+
+  const dispatch = createEventDispatcher();
+
   export let items;
   export let props;
+  export let selectedId = '';
 
-  let selected = items[0];
+  const map = items.reduce((acc, item) => ({ ...acc, [item.id]: item }), {});
+
+  let selected = map[selectedId || items[0].id];
 </script>
 
 <div>
@@ -12,7 +20,10 @@
         <button
           class="py-2 px-4 -mb-px border border-gray-400 rounded rounded-b-none bg-gray-100"
           style={selected === item ? 'border-bottom-color: white; background-color: white;' : ''}
-          on:click={() => (selected = item)}>
+          on:click={() => {
+            selected = item;
+            dispatch('select', item.id);
+          }}>
           {item.label}
         </button>
       </li>
