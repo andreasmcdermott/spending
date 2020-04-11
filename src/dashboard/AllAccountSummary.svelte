@@ -4,6 +4,7 @@
   import YearPicker from '../elements/YearPicker.svelte';
   import YearlySummaryTable from './YearlySummaryTable.svelte';
   import YearlySummaryChart from './YearlySummaryChart.svelte';
+  import YearlyCategoriesSummaryChart from './YearlyCategoriesSummaryChart.svelte';
   import { createCachedStore } from '../utils/cachedStore';
 
   const years = getAllYears();
@@ -15,4 +16,7 @@
 
 <YearPicker {years} value={$year} on:change={e => ($year = e.detail)} />
 <YearlySummaryTable year={$year} {transactions} />
-<YearlySummaryChart year={$year} {transactions} />
+<div class="flex flex-col items-center pb-8">
+  <YearlySummaryChart year={$year} {transactions} />
+  <YearlyCategoriesSummaryChart year={$year} {transactions} />
+</div>

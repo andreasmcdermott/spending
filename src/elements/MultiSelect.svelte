@@ -43,6 +43,7 @@
           class="ml-1"
           on:click={() => {
             values = values.filter(value => value !== v);
+            dispatch('change', values);
           }}>
           x
         </button>

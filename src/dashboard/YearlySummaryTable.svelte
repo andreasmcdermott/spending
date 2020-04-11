@@ -49,7 +49,7 @@
       <span class="text-base">({numMonth} mos)</span>
     {/if}
   </h1>
-  <div class="flex justify-between p-2">
+  <div class="flex justify-around p-2">
     <div class="w-5/12 flex-none">
       <h2 class="font-bold mb-2">Total</h2>
       <SummaryRowDisplay title="Income" data={data[CategoryTypes.Income]} includeSubs={true} />

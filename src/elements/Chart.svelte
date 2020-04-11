@@ -29,4 +29,6 @@
   }
 </script>
 
-<canvas bind:this={el} class="w-full, h-full" />
+<div class="w-full max-w-6xl mx-auto">
+  <canvas bind:this={el} class="w-full, h-full" />
+</div>

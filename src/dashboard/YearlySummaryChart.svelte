@@ -53,6 +53,6 @@
   $: data = Object.values(summary);
 </script>
 
-<div class="mt-8">
+<div class="w-full mt-8 pt-8 border-t">
   <LineChart title="Summary per Month" {labels} {data} />
 </div>
